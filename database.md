@@ -27,12 +27,13 @@ Contains data identifying locations and the hunts for which they associate
 - table 'location'
 - contains a unique row ID (primary key)
 - 'huntid' contains the hunt id to which this location is associated
+- 'location' contains the display name for this location i.e. 'Culp Centre', limit 100 characters
+- 'lat' contains the GPS location latitude, real
+- 'lon' contains the GPS location longitude, real
 - 'task' contains the task for which this location is associated, limit 150 characters
 - 'accesscode' contains the access code found at this location, format unknown (likely string)
 - 'qrcode' contains the QR code payload found at this location, format unknown (likely string)
-- 'lat' contains the GPS location latitude, real
-- 'lon' contains the GPS location longitude, real
-- 'answer' contains a display name or answer for this location, i.e. 'Culp Centre 3rd Floor Elevators', limit 100 characters
+- 'answer' contains the answer for this location, limit 100 characters
 
 # Hunters
 Contains data linking users to the hunts they participate in
