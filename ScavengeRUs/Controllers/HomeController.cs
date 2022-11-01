@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ScavengeRUs.Models;
 using System.Diagnostics;
 
 namespace ScavengeRUs.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,7 +19,12 @@ namespace ScavengeRUs.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Player")]
+        public IActionResult about()
+        {
+            return Content("It works");
+        }
+        [Authorize(Roles ="Admin")]
         public IActionResult Privacy()
         {
             return View();
