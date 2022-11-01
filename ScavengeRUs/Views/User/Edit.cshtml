@@ -1,5 +1,7 @@
 ﻿@model ScavengeRUs.Models.Entities.ApplicationUser
 @using ScavengeRUs.Models.Enums
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Edit";
 }
@@ -30,6 +32,10 @@
                 </select>
                 <span asp-validation-for="Roles" class="text-danger"></span>
             </div>
+            @if(User.Identity != null && User.Identity.Name == Model.Email)
+            {
+                <p>You must logout for changes to take effect.</p>
+            }
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
