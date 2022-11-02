@@ -5,6 +5,10 @@ using ScavengeRUs.Models.Entities;
 
 namespace ScavengeRUs.Data
 {
+    /// <summary>
+    /// This is the interface to connects to the database
+    /// 
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

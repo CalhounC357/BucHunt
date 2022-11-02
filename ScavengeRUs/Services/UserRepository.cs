@@ -8,12 +8,20 @@ using System.Security.Claims;
 
 namespace ScavengeRUs.Services
 {
+    /// <summary>
+    /// This class includes methods for reading, creating, editing, adding and removing roles to a user. 
+    /// </summary>
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-
+        /// <summary>
+        /// Dependency injection that pulls in the database
+        /// </summary>q
+        /// <param name="db"></param>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
         public UserRepository(ApplicationDbContext db, 
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager)
@@ -22,16 +30,27 @@ namespace ScavengeRUs.Services
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
+        /// <summary>
+        /// Returns a user object given the username
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public async Task<ApplicationUser?> ReadAsync(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user != null)
             {
                 user.Roles = await _userManager.GetRolesAsync(user);
+                await _db.SaveChangesAsync();   
             }
             return user;
         }
+        /// <summary>
+        /// Passing a user object and a password this creates a new user and adds it to the database
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public async Task<ApplicationUser> CreateAsync(
             ApplicationUser user, string password)
         {
@@ -40,6 +59,12 @@ namespace ScavengeRUs.Services
             user.Roles.Add(user.Roles.First());
             return user;
         }
+        /// <summary>
+        /// This assigns a user to a role passing the username and rolename
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
         public async Task AssignUserToRoleAsync(string userName, string roleName)
         {
             //var roleCheck = await _roleManager.RoleExistsAsync(roleName);
@@ -65,9 +90,15 @@ namespace ScavengeRUs.Services
             }
             
         }
+        /// <summary>
+        /// This remove a user from a role passing the username and rolename
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
         public async Task RemoveUserFromRoleAsync(string userName, string roleName)
         {
-            var user = await ReadByUsernameAsync(userName);
+            var user = await ReadAsync(userName);
             if (user != null)
             {
                 if (user.Roles.Contains(roleName))
@@ -76,13 +107,10 @@ namespace ScavengeRUs.Services
                 }
             }
         }
-        public async Task<ApplicationUser?> ReadByUsernameAsync(string username)
-        {
-            var user = await _db.Users.FirstOrDefaultAsync(
-                u => u.UserName == username);
-            return user;
-        }
-
+        /// <summary>
+        /// This returns a list of all the users
+        /// </summary>
+        /// <returns></returns>
         public async Task<ICollection<ApplicationUser>> ReadAllAsync()
         {
             var users = await _db.Users
@@ -96,7 +124,12 @@ namespace ScavengeRUs.Services
             }
             return users;
         }
-
+        /// <summary>
+        /// This updates the a users fields. Passing the username (old user) and user object (new user)
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task UpdateAsync(string username, ApplicationUser user)
         {
             var userToUpdate = await ReadAsync(username);
@@ -110,6 +143,11 @@ namespace ScavengeRUs.Services
                 await _db.SaveChangesAsync();
             }
         }
+        /// <summary>
+        /// This delete a user from the db passing the username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public async Task DeleteAsync(string username)
         {
             var user = _db.Users.FirstOrDefault(u => u.UserName == username);
