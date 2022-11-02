@@ -44,3 +44,14 @@ Contains data linking users to the hunts they participate in
 - all rows in this table are unique, referencing a hunt, and one user in that hunt
   - A user may be in multiple hunts
   - Hunts can have multiple users
+
+insert into location values (null,1,'Millenium Centre',0,0,'How many TVs are on the first floor?',null,null,null);
+insert into location values (null,1,'Library',0,0,'How many printers are available for student use on the first floor?',null,null,null);
+insert into location values (null,1,'Administration Building',0,0,'What room number is the dean''s room?',null,null,null);
+insert into location values (null,1,'Roy S. Nicks Hall',0,0,'What is the name of the first hallway on the fourth floor?',null,null,null);
+insert into location values (null,1,'Basler Centre for Physical Activity',0,0,'How tall is the rock-climbing wall?',null,null,null);
+insert into location values (null,1,'Burleson Hall',0,0,'How many floors are there?',null,null,null);
+insert into location values (null,1,'ETSU Bell Tower',0,0,'How many bells are there?',null,null,null);
+insert into location values (null,1,'D. P. Culp Centre',0,0,'What store is directly in front of the library-side entrance?',null,null,null);
+insert into location values (null,1,'Sam Wilson Hall',0,0,'What is the number of the first classroom on the right when entering through the rightmost door from the quad?',null,null,null);
+insert into location values (null,1,'Brown Hall',0,0,'What kind of tree is planted in the centre courtyard? Hint: check the lobby plaque.',null,null,null);
