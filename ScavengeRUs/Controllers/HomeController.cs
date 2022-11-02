@@ -5,7 +5,6 @@ using System.Diagnostics;
 
 namespace ScavengeRUs.Controllers
 {
-    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,6 +18,8 @@ namespace ScavengeRUs.Controllers
         {
             return View();
         }
+        
+
         [Authorize(Roles = "Player")]
         public IActionResult about()
         {

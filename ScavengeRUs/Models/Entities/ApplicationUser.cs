@@ -7,11 +7,13 @@ namespace ScavengeRUs.Models.Entities
 {
     public class ApplicationUser : IdentityUser
     {
+        [Required]
         [DisplayName("First Name")]
         [StringLength(50)]
         public string? FirstName { get; set; }
         [DisplayName("Last Name")]
         [StringLength(50)]
+        [Required]
         public string? LastName { get; set; }
         public Hunt? Hunt{ get; set; }
         [NotMapped]
