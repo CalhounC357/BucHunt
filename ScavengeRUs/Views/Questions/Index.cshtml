@@ -1,0 +1,18 @@
+﻿@model IEnumerable<ScavengeRUs.Models.Entities.Location>
+
+@{
+    ViewData["Title"] = "Questions";
+}
+
+<h1>Hunt</h1>
+
+@foreach(var item in Model)
+{
+    <br />
+    <h4>
+        @Html.DisplayFor(modelItem => item.Place)
+    </h4>
+    <p>
+        @Html.DisplayFor(modelItem => item.Task)
+    </p>
+}
