@@ -4,38 +4,42 @@
     ViewData["Title"] = "Questions";
 }
 
+<script src="js/site.js"></script>
 <script>
-    function getLocation() {
+    function displayLocation() {
         var elem = document.getElementById('geolocation');
-        elem.innerHTML = 'text here';
+        getLocationAsync(callWithLocationSuccess,callWithLocationFailure);
+        // CALLBACKS
+        function callWithLocationSuccess(coords) {
+            elem.innerHTML = 'You are at <br>';
+            elem.innerHTML += 'Latitude: ' + (coords.latitude) + '<br>';
+            elem.innerHTML += 'Longitude: ' + (coords.longitude) + '<br>';
+            elem.innerHTML += 'Altitude: ' + (coords.altitude) + '<br>';
+            elem.innerHTML += 'Accuracy: ' + (coords.accuracy) + ' metres <br>';
+            elem.innerHTML += 'Alt. Accuracy: ' + (coords.altitudeAccuracy) + ' metres <br>';
+            elem.innerHTML += 'Heading: ' + (coords.heading) + ' degrees <br>';
+            elem.innerHTML += 'Speed: ' + (coords.speed) + ' metres per second <br>';
+        }
 
-        var geoapi = navigator.geolocation;
-        if (geoapi === undefined) {
-            elem.innerHTML = 'no geolocation';
-            return null;
-        } else {
-            // ASYNC geoapi.getCurrentPosition(callWithLocationSuccess,callWithLocationFailure,{enableHighAccuracy:true});
-            function callWithLocationSuccess(gpLocation) {
-                var coords = gpLocation.coords;
-                elem.innerHTML = 'You are at <br>';
-                elem.innerHTML += 'Latitude: ' + (coords.latitude) + '<br>';
-                elem.innerHTML += 'Longitude: ' + (coords.longitude) + '<br>';
-                elem.innerHTML += 'Altitude: ' + (coords.altitude) + '<br>';
-                elem.innerHTML += 'Accuracy: ' + (coords.accuracy) + ' metres <br>';
-                elem.innerHTML += 'Alt. Accuracy: ' + (coords.altitudeAccuracy) + ' metres <br>';
-                elem.innerHTML += 'Heading: ' + (coords.heading) + ' degrees <br>';
-                elem.innerHTML += 'Speed: ' + (coords.speed) + ' metres per second <br>';
+        function callWithLocationFailure(gpError) {
+            switch (gpError) {
+                case 1:
+                    elem.innerHTML = 'no geolocation support';
+                    break;
+                case 2:
+                    elem.innerHTML = 'user denied permission';
+                    break;
+                case 3:
+                    elem.innerHTML = 'location unavailable';
+                    break;
+                case 4:
+                    elem.innerHTML = 'location acquisition timed out';
+                    break;
             }
-
-            function callWithLocationFailure(gpError) {
-                elem.innerHTML = 'location error';
-            }
-
-            geoapi.getCurrentPosition(callWithLocationSuccess, callWithLocationFailure, { enableHighAccuracy: true });
         }
     }
 
-    setTimeout(getLocation,0);
+    setTimeout(displayLocation,0);
 </script>
 
 <h1>Where am I?</h1>
