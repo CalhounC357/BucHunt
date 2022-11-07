@@ -4,6 +4,19 @@
     ViewData["Title"] = "Questions";
 }
 
+<script>
+    function getLocation() {
+        var elem = document.getElementById('geolocation');
+        elem.innerHTML = 'text here';
+    }
+
+    setTimeout(getLocation,0);
+</script>
+
+<h1>Where am I?</h1>
+
+<p id="geolocation">Unknown</p>
+
 <h1>Hunt</h1>
 
 @foreach(var item in Model)
