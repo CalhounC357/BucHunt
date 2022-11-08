@@ -15,9 +15,15 @@ namespace ScavengeRUs.Data
             : base(options)
         {
         }
-        public DbSet<Location> Location { get; set; }
+        public DbSet<Location> Location => Set<Location>();
         public DbSet<Hunt> Hunts => Set<Hunt>();
         public DbSet<AccessCode> AccessCodes => Set<AccessCode>();
+
+
+        /// <summary>
+        /// This sets up with cascade contraint when deleting related data in the DB
+        /// </summary>
+        /// <param name="builder"></param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

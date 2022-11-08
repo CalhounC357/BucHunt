@@ -37,9 +37,10 @@ namespace ScavengeRUs.Services
         /// <returns></returns>
         public async Task<ApplicationUser?> ReadAsync(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user =  _db.Users.FirstOrDefault(u => u.UserName == userName);
             if (user != null)
             {
+                _db.Entry(user).Reference(h => h.Hunt).Load();
                 user.Roles = await _userManager.GetRolesAsync(user);
                 await _db.SaveChangesAsync();   
             }
@@ -114,6 +115,7 @@ namespace ScavengeRUs.Services
         public async Task<ICollection<ApplicationUser>> ReadAllAsync()
         {
             var users = await _db.Users
+                .Include(p => p.Hunt)
                 .ToListAsync();
             foreach (var user in users)
             {
