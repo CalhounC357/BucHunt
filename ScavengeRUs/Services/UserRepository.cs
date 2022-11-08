@@ -171,6 +171,15 @@ namespace ScavengeRUs.Services
                 await UpdateAsync(username, user);
             }
         }
+        public async Task<ApplicationUser> FindByAccessCode(string accessCode)
+        {
+            if (accessCode == null)
+            {
+                return null!;
+            }
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.AccessCode!.Code == accessCode);
+            return user!;
+        }
 
     }
 }

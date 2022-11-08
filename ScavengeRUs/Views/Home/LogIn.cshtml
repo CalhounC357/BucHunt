@@ -1,4 +1,4 @@
-﻿@model Hunt
+﻿@model ScavengeRUs.Models.Entities.AccessCode
 @{
     ViewData["Title"] = "Log in";
 }
@@ -7,24 +7,15 @@
 <div class="row justify-content-center">
     <div class="col-4">
         <section>
-            <form id="account" method="post">
+            <form asp-action="LogIn">
                 <h1>@ViewData["Title"]</h1>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-@*                <div class="form-floating">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                    <label asp-for="Input.Email" class="form-label"></label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
+                <h3>Enter your access code.</h3>
                 <div class="form-floating">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
-                    <label asp-for="Input.Password" class="form-label"></label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>*@
-                 <div class="form-floating">
-                    <input asp-for="AccessCodes" class="form-control" autocomplete="accesscode" aria-required="true" />
-                    <label asp-for="AccessCodes" class="form-label"></label>
-                    <span asp-validation-for="AccessCodes" class="text-danger"></span>
+                    <input asp-for="Code" class="form-control" autocomplete="current-password" aria-required="true" />
+                    <label asp-for="Code" class="form-label"></label>
+                    <span asp-validation-for="Code" class="text-danger"></span>
                 </div>
                 <div>
                 </div>
@@ -33,13 +24,7 @@
                 </div>
                 <div>
                     <p>
-                        @*<a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>*@
-                    </p>
-                    <p>
-
-                    </p>
-                    <p>
-                        @*<a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>*@
+                        <a asp-action="Index">Return back to home</a>
                     </p>
                 </div>
             </form>
