@@ -11,8 +11,8 @@ using ScavengeRUs.Data;
 namespace ScavengeRUs.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221102171631_mig10")]
-    partial class mig10
+    [Migration("20221107211608_mig03")]
+    partial class mig03
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -151,10 +151,32 @@ namespace ScavengeRUs.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ScavengeRUs.Models.Entities.AccessCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("HuntId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HuntId");
+
+                    b.ToTable("AccessCode");
+                });
+
             modelBuilder.Entity("ScavengeRUs.Models.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("AccessCodeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
@@ -171,6 +193,7 @@ namespace ScavengeRUs.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
@@ -178,6 +201,7 @@ namespace ScavengeRUs.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
@@ -216,6 +240,8 @@ namespace ScavengeRUs.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccessCodeId");
+
                     b.HasIndex("HuntId");
 
                     b.HasIndex("NormalizedEmail")
@@ -234,9 +260,49 @@ namespace ScavengeRUs.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("HuntName")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Hunt");
+                    b.ToTable("Hunts");
+                });
+
+            modelBuilder.Entity("ScavengeRUs.Models.Entities.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AccessCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("HuntId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double?>("Lat")
+                        .HasColumnType("REAL");
+
+                    b.Property<double?>("Lon")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Place")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("QRCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Task")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -290,17 +356,39 @@ namespace ScavengeRUs.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ScavengeRUs.Models.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("ScavengeRUs.Models.Entities.AccessCode", b =>
                 {
                     b.HasOne("ScavengeRUs.Models.Entities.Hunt", "Hunt")
-                        .WithMany("Players")
+                        .WithMany("AccessCodes")
                         .HasForeignKey("HuntId");
 
                     b.Navigation("Hunt");
                 });
 
+            modelBuilder.Entity("ScavengeRUs.Models.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("ScavengeRUs.Models.Entities.AccessCode", "AccessCode")
+                        .WithMany("Users")
+                        .HasForeignKey("AccessCodeId");
+
+                    b.HasOne("ScavengeRUs.Models.Entities.Hunt", "Hunt")
+                        .WithMany("Players")
+                        .HasForeignKey("HuntId");
+
+                    b.Navigation("AccessCode");
+
+                    b.Navigation("Hunt");
+                });
+
+            modelBuilder.Entity("ScavengeRUs.Models.Entities.AccessCode", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("ScavengeRUs.Models.Entities.Hunt", b =>
                 {
+                    b.Navigation("AccessCodes");
+
                     b.Navigation("Players");
                 });
 #pragma warning restore 612, 618

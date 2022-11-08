@@ -157,6 +157,20 @@ namespace ScavengeRUs.Services
                 await _db.SaveChangesAsync();
             }
         }
+        public async Task AddUserToHunt(string username, Hunt hunt)
+        {
+            var user = await ReadAsync(username);
+            if (user != null)
+            {
+                user.Hunt = hunt;
+                var accessCode = new AccessCode()
+                {
+                    Code = $"{username}{hunt.Id}"
+                };
+                user.AccessCode = accessCode;
+                await UpdateAsync(username, user);
+            }
+        }
 
     }
 }
