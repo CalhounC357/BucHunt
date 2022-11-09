@@ -78,6 +78,7 @@ namespace ScavengeRUs.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
+        /// 
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed([Bind(Prefix = "id")]string username)
         {

@@ -9,8 +9,14 @@ namespace ScavengeRUs.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Role",
-                table: "AspNetUsers",
+                name: "HuntName",
+                table: "Hunts",
+                type: "TEXT",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Code",
+                table: "AccessCode",
                 type: "TEXT",
                 nullable: true);
         }
@@ -18,8 +24,12 @@ namespace ScavengeRUs.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Role",
-                table: "AspNetUsers");
+                name: "HuntName",
+                table: "Hunts");
+
+            migrationBuilder.DropColumn(
+                name: "Code",
+                table: "AccessCode");
         }
     }
 }

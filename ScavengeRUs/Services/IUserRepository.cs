@@ -11,5 +11,7 @@ namespace ScavengeRUs.Services
         Task DeleteAsync(string userName);  
         Task<ApplicationUser> CreateAsync(ApplicationUser user, string password);
         Task AssignUserToRoleAsync(string userName, string roleName);
+        Task AddUserToHunt(string username, Hunt hunt);
+        Task<ApplicationUser> FindByAccessCode(string accessCode);
     }
 }
