@@ -43,3 +43,14 @@ function getLocationAsync(callbackSuccess,callbackError) {
         }
     }
 }
+
+/*
+ * Given a coords object, and the decimal forms of the target's latitude and longitude,
+ * determines the player distance to the target.
+ */
+function distanceToLocation(coords, targetLat, targetLon) {
+    var playerLat = coords.latitude;
+    var playerLon = coords.longitude;
+    // Pythagorean distance
+    return Math.sqrt(Math.pow(playerLat - targetLat, 2) + Math.pow(playerLon - targetLon, 2));
+}
