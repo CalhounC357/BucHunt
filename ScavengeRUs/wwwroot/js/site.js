@@ -54,9 +54,9 @@ function distanceToLocation(coords, targetLat, targetLon) {
     // Turns out this is surprisingly difficult to do. Lat/lon coordinates do not map to linear distances
     // in the obvious sense.
 
-    // This is based on errata from the FCC rules on distance measurement for radio stations to
+    // This is based on errata from FCC rules on distance measurement for radio stations to
     // avoid interference and is only applicable for distances no larger than 475 km or 295 miles.
-    // Safe to say no hunt will likely have distances of this size.
+    // It is unlikely that a hunt will have distances of this length to where accuracy would be a problem at this extreme.
 
     // For trig functions, it is not clear whether degrees or radians are in use.
     // The mathematical definition using radians is assumed.
