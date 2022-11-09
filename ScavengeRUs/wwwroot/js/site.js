@@ -86,9 +86,31 @@ function distanceToLocation(coords, targetLat, targetLon) {
 // Therefore this sanity tests okay at least done by hand in Java.
 
 /*
- * Return a friendly string for a given distance.
+ * Convert metres to feet.
  */
-function distanceToString(dist) {
+function metresToFeet(v) {
+    return 3.2808399 * v;
+}
+
+/*
+ * Return a friendly string IN IMPERIAL for a given distance in METRES.
+ */
+function distanceToStringImperial(distInMetres) {
+    var distInFeet = metresToFeet(distInMetres);
+    const FEET_IN_MILE = 5280; // 5280 ft = 1mi
+    if (dist < metresToFeet(5)) {
+        return 'Here';
+    } else if (dist < FEET_IN_MILE) {
+        return (dist) + 'ft';
+    } else {
+        return (dist / FEET_IN_MILE).toFixed(2) + 'mi'; // 2 digits fractional miles
+    }
+}
+
+/*
+ * Return a friendly string IN METRIC for a given distance in METRES.
+ */
+function distanceToStringMetric(distInMetres) {
     if (dist < 5) {
         return 'Here';
     } else if (dist < 1000) {
