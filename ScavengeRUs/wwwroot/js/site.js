@@ -46,11 +46,48 @@ function getLocationAsync(callbackSuccess,callbackError) {
 
 /*
  * Given a coords object, and the decimal forms of the target's latitude and longitude,
- * determines the player distance to the target.
+ * determines the player distance to the target in metres.
  */
 function distanceToLocation(coords, targetLat, targetLon) {
     var playerLat = coords.latitude;
     var playerLon = coords.longitude;
-    // Pythagorean distance
-    return Math.sqrt(Math.pow(playerLat - targetLat, 2) + Math.pow(playerLon - targetLon, 2));
+    // Turns out this is surprisingly difficult to do. Lat/lon coordinates do not map to linear distances
+    // in the obvious sense.
+
+    // This is based on errata from the FCC rules on distance measurement for radio stations to
+    // avoid interference and is only applicable for distances no larger than 475 km or 295 miles.
+    // Safe to say no hunt will likely have distances of this size.
+
+    // For trig functions, it is not clear whether degrees or radians are in use.
+    // The mathematical definition using radians is assumed.
+
+    // https://www.govinfo.gov/content/pkg/CFR-2016-title47-vol4/pdf/CFR-2016-title47-vol4-sec73-208.pdf
+    // section 73.209, p. 87
+
+    // calculate middle latitude
+    var middleLatitude = (playerLat + targetLat) / 2;
+    // calculate kilometres per degree latitude difference for the middle latitude
+    var kiloPerDegDiff = 111.13209 - 0.56605 * Math.cos(2 * middleLatitude) + 0.00120 * Math.cos(4 * middleLatitude);
+    // calculate North-South distance
+    var nsDist = kiloPerDegDiff * (playerLat - targetLat);
+    // calculate East-West distance
+    var ewDist = kiloPerDegDiff * (playerLon - targetLon);
+    // Now take the Pythagorean using these two NS and EW distances giving kilometres
+    var distKm = Math.hypot(nsDist, ewDist);
+    // Convert to metres
+    return distKm * 1000;
+}
+
+// Above testing coords
+// Ross Hall                36DEG18'00"N 82DEG22'12"W => 36.30000000N 82.37000000W (lossy conversions)
+// DM Centre                36DEG18'20"N 82DEG22'18"W => 36.30555556N 82.37166667W
+// Google claims 636.57 metres linear
+// Manual test with the above numbers is 647.6763 metres for an error of 11.1 metres (very close.)
+// Therefore this sanity tests okay at least done by hand in Java.
+
+/*
+ * Return a friendly string for a given distance.
+ */
+function distanceToString(dist) {
+
 }
