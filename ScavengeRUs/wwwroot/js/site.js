@@ -89,5 +89,11 @@ function distanceToLocation(coords, targetLat, targetLon) {
  * Return a friendly string for a given distance.
  */
 function distanceToString(dist) {
-
+    if (dist < 5) {
+        return 'Here';
+    } else if (dist < 1000) {
+        return (dist) + 'm';
+    } else {
+        return (dist / 1000).toFixed(2) + 'Km'; // 2 digits fractional kilometres
+    }
 }
