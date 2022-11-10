@@ -26,8 +26,5 @@ namespace ScavengeRUs.Models.Entities
         [NotMapped]
         public ICollection<string> Roles { get; set; }
     = new List<string>();
-
-
-
     }
 }

@@ -11,6 +11,14 @@
     <a asp-action="Create" style="padding-left: 3px">Create New User</a> |
     <a asp-area="" asp-controller="Hunt" asp-action="Index" style="padding-right: 3px">Manage Hunts</a>
 </p>
+
+<form asp-controller="User" asp-action="Manage">
+    <p>
+        Search: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
