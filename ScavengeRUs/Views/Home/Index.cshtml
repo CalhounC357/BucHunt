@@ -1,12 +1,26 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model ScavengeRUs.Models.Entities.AccessCode
+@{
+    ViewData["Title"] = "Buc Hunt";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
 <div class="row justify-content-center">
-    <a asp-controller="Home" asp-action="LogIn" class="w-50 btn btn-lg btn-primary">Player sign up</a>
+    <div class="col-4">
+        <section>
+            <form asp-action="LogIn">
+                <h1 style="text-align:center">@ViewData["Title"]</h1>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <h3 style ="text-align:center">Enter your access code.</h3>
+                <div class="form-floating">
+                    <input asp-for="Code" required class="form-control" autocomplete="current-password" aria-required="true" />
+                    <label asp-for="Code" class="form-label"></label>
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                </div>
+
+            </form>
+        </section>
+    </div>
 </div>
 
