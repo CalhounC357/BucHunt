@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScavengeRUs.Data;
 
@@ -10,9 +11,10 @@ using ScavengeRUs.Data;
 namespace ScavengeRUs.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221113041531_mig06")]
+    partial class mig06
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
@@ -195,7 +197,7 @@ namespace ScavengeRUs.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("HuntId")
+                    b.Property<int?>("HuntId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LastName")
@@ -371,7 +373,7 @@ namespace ScavengeRUs.Data.Migrations
                     b.HasOne("ScavengeRUs.Models.Entities.Hunt", "Hunt")
                         .WithMany("AccessCodes")
                         .HasForeignKey("HuntId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientNoAction)
                         .IsRequired();
 
                     b.Navigation("Hunt");
@@ -387,8 +389,7 @@ namespace ScavengeRUs.Data.Migrations
                     b.HasOne("ScavengeRUs.Models.Entities.Hunt", "Hunt")
                         .WithMany("Players")
                         .HasForeignKey("HuntId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("AccessCode");
 

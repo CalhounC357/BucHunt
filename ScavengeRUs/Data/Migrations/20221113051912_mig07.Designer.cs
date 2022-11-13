@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScavengeRUs.Data;
 
@@ -10,9 +11,10 @@ using ScavengeRUs.Data;
 namespace ScavengeRUs.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221113051912_mig07")]
+    partial class mig07
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
@@ -195,9 +197,6 @@ namespace ScavengeRUs.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("HuntId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -236,11 +235,12 @@ namespace ScavengeRUs.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("huntId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AccessCodeId");
-
-                    b.HasIndex("HuntId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -248,6 +248,8 @@ namespace ScavengeRUs.Data.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("huntId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -386,7 +388,7 @@ namespace ScavengeRUs.Data.Migrations
 
                     b.HasOne("ScavengeRUs.Models.Entities.Hunt", "Hunt")
                         .WithMany("Players")
-                        .HasForeignKey("HuntId")
+                        .HasForeignKey("huntId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
