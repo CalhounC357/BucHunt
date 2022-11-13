@@ -107,8 +107,13 @@ namespace ScavengeRUs.Services
             if (hunt != null)
             {
                 user.Hunt = hunt;
-                user.Roles.Add("Player");
-                await _userRepo.CreateAsync(user, "Etsupass12!");
+                var existingUser = await _userRepo.ReadAsync(user.UserName);
+                if (existingUser == null)
+                {
+                    user.Roles.Add("Player");
+                    await _userRepo.CreateAsync(user, "Etsupass12!");
+                }
+
                 var player = await _userRepo.ReadAsync(user.Id);
                 if (player != null)
                 {

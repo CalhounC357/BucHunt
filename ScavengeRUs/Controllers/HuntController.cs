@@ -146,16 +146,22 @@ namespace ScavengeRUs.Controllers
                 RedirectToAction("Index");
             }
             var hunt = await _huntRepo.ReadAsync(huntId);
-            var newUser = new ApplicationUser()
+            var existingUser = await _userRepo.ReadAsync(user.Email);
+            var newUser = new ApplicationUser();
+            if (existingUser == null)
             {
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                AccessCode = user.AccessCode,
-                UserName = user.Email
-            };
-            if (newUser.AccessCode!.Code == null)       //If the admin didn't specify an access code (If we need to, I have the field readonly currently)
+                newUser.Email = user.Email;
+                newUser.PhoneNumber = user.PhoneNumber;
+                newUser.FirstName = user.FirstName;
+                newUser.LastName = user.LastName;
+                newUser.AccessCode = user.AccessCode;
+                newUser.UserName = user.Email;
+            }
+            else
+            {
+                newUser = existingUser;
+            }
+            if (newUser.AccessCode == null)       //If the admin didn't specify an access code (If we need to, I have the field readonly currently)
             {
                 newUser.AccessCode = new AccessCode()
                 {
@@ -173,7 +179,6 @@ namespace ScavengeRUs.Controllers
                 };
                 newUser.AccessCode.Users.Add(newUser);
             }
-
             await _huntRepo.AddUserToHunt(huntId, newUser); //This methods adds the user to the database and adds the database relationship to a hunt.
             return RedirectToAction("Index");
         }
