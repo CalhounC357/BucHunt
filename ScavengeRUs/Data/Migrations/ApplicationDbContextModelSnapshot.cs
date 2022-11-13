@@ -195,7 +195,7 @@ namespace ScavengeRUs.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("HuntId")
+                    b.Property<int>("HuntId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LastName")
@@ -258,7 +258,19 @@ namespace ScavengeRUs.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("HuntName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InvitationText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Theme")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -375,7 +387,8 @@ namespace ScavengeRUs.Data.Migrations
                     b.HasOne("ScavengeRUs.Models.Entities.Hunt", "Hunt")
                         .WithMany("Players")
                         .HasForeignKey("HuntId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AccessCode");
 

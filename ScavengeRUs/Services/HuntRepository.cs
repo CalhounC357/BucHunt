@@ -71,6 +71,12 @@ namespace ScavengeRUs.Services
             if (hunt != null)            
             {
                 _db.Hunts.Remove(hunt);
+                var list = _db.AccessCodes.Where(a => a.HuntId == huntId);
+                foreach (var item in list)
+                {
+                _db.AccessCodes.Remove(item);
+
+                }
                 await _db.SaveChangesAsync();
             }
         }
@@ -79,12 +85,15 @@ namespace ScavengeRUs.Services
         /// </summary>
         /// <param name="huntId"></param>
         /// <returns></returns>
-        public async Task<ICollection<Hunt>> ReadHuntWithRelatedData(int huntId)
+        public async Task<Hunt> ReadHuntWithRelatedData(int huntId)
         {
-            return await _db.Hunts
+            
+                var hunts = await _db.Hunts
+                
                 .Include(p => p.Players)
                 .ThenInclude(p => p.AccessCode)
                 .ToListAsync();
+                return hunts.FirstOrDefault(a => a.Id == huntId);
         }
         /// <summary>
         /// This methods adds a user to a hunt passing the huntId and a user
@@ -122,6 +131,8 @@ namespace ScavengeRUs.Services
             var hunt = await ReadAsync(huntId);
             if (user != null && hunt != null)
             {
+                user.Hunt = null;
+                
                 hunt.Players.Remove(user);
                 await _db.SaveChangesAsync();
             }

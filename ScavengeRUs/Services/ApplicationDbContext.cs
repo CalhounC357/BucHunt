@@ -15,6 +15,7 @@ namespace ScavengeRUs.Data
             : base(options)
         {
         }
+
         public DbSet<Location> Location => Set<Location>();
         public DbSet<Hunt> Hunts => Set<Hunt>();
         public DbSet<AccessCode> AccessCodes => Set<AccessCode>();
@@ -27,29 +28,36 @@ namespace ScavengeRUs.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<Hunt>()
+                .HasMany<AccessCode>(a => a.AccessCodes)
+                .WithOne(b => b.Hunt)
+                .HasForeignKey(b => b.HuntId)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<Hunt>()
+                .HasMany<ApplicationUser>(a => a.Players)
+                .WithOne(b => b.Hunt)
+                .OnDelete(DeleteBehavior.SetNull);
             builder.Entity<ApplicationUser>()
                 .HasOne(a => a.AccessCode)
-                .WithMany(a => a.Users)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(a => a.Users)     
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<ApplicationUser>()
+                .HasOne(a => a.Hunt)
+                .WithMany(a => a.Players)
+                .OnDelete(DeleteBehavior.SetNull);
             builder.Entity<AccessCode>()
-                .HasMany(a => a.Users)
+                .HasMany<ApplicationUser>(a => a.Users)
                 .WithOne(a => a.AccessCode)
-                .OnDelete(DeleteBehavior.Cascade);            
+
+                .OnDelete(DeleteBehavior.SetNull);            
             builder.Entity<AccessCode>()
                 .HasOne(a => a.Hunt)
                 .WithMany(a => a.AccessCodes)
                 .HasForeignKey(a => a.HuntId)
-                .OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<Hunt>()
-                .HasMany(a => a.Players)
-                .WithOne(a => a.Hunt)
+                .OnDelete(DeleteBehavior.SetNull);
 
-                .OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<Hunt>()
-                .HasMany(a => a.AccessCodes)
-                .WithOne(a => a.Hunt)
-                .HasForeignKey(a => a.HuntId)
-                .OnDelete(DeleteBehavior.ClientNoAction);
+            
+
 
             
         }

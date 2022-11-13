@@ -6,7 +6,7 @@ namespace ScavengeRUs.Services
     {
         Task<ICollection<Hunt>> ReadAllAsync();
         Task<Hunt>? ReadAsync(int huntId);
-        Task<ICollection<Hunt>> ReadHuntWithRelatedData(int huntId);
+        Task<Hunt> ReadHuntWithRelatedData(int huntId);
         Task AddUserToHunt(int huntId, ApplicationUser user);
         Task<Hunt> CreateAsync(Hunt hunt);
         Task DeleteAsync(int huntId);

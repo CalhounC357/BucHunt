@@ -111,13 +111,13 @@ namespace ScavengeRUs.Controllers
         /// <returns></returns>
         public async Task<IActionResult> ViewPlayers([Bind(Prefix = "Id")] int huntId)
         {
-            var huntList = await _huntRepo.ReadHuntWithRelatedData(huntId);
-            ViewData["Hunt"] = huntList.First();
-            if(huntList == null)
+            var hunt = await _huntRepo.ReadHuntWithRelatedData(huntId);
+            ViewData["Hunt"] = hunt;
+            if(hunt == null)
             {
                 return RedirectToAction("Index");
             }
-            var hunt = huntList.First();
+            
             return View(hunt.Players);
         }
         /// <summary>
