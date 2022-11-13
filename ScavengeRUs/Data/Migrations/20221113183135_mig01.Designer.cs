@@ -11,8 +11,8 @@ using ScavengeRUs.Data;
 namespace ScavengeRUs.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221107203543_mig02")]
-    partial class mig02
+    [Migration("20221113183135_mig01")]
+    partial class mig01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,14 +157,17 @@ namespace ScavengeRUs.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("HuntId")
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("HuntId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HuntId");
 
-                    b.ToTable("AccessCode");
+                    b.ToTable("AccessCodes");
                 });
 
             modelBuilder.Entity("ScavengeRUs.Models.Entities.ApplicationUser", b =>
@@ -256,6 +259,21 @@ namespace ScavengeRUs.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HuntName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InvitationText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Theme")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -354,7 +372,9 @@ namespace ScavengeRUs.Data.Migrations
                 {
                     b.HasOne("ScavengeRUs.Models.Entities.Hunt", "Hunt")
                         .WithMany("AccessCodes")
-                        .HasForeignKey("HuntId");
+                        .HasForeignKey("HuntId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("Hunt");
                 });
@@ -363,11 +383,13 @@ namespace ScavengeRUs.Data.Migrations
                 {
                     b.HasOne("ScavengeRUs.Models.Entities.AccessCode", "AccessCode")
                         .WithMany("Users")
-                        .HasForeignKey("AccessCodeId");
+                        .HasForeignKey("AccessCodeId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("ScavengeRUs.Models.Entities.Hunt", "Hunt")
                         .WithMany("Players")
-                        .HasForeignKey("HuntId");
+                        .HasForeignKey("HuntId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("AccessCode");
 
