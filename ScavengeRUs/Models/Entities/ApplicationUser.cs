@@ -24,9 +24,7 @@ namespace ScavengeRUs.Models.Entities
         [DisplayName("Registered Hunt")]
         public Hunt? Hunt{ get; set; }
         [NotMapped]
-        public ICollection<string> Roles { get; set; } = new List<string>();
-
-
-
+        public ICollection<string> Roles { get; set; }
+    = new List<string>();
     }
 }
