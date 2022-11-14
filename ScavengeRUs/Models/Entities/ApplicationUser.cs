@@ -20,15 +20,11 @@ namespace ScavengeRUs.Models.Entities
         [StringLength(50)]
         [Required]
         public string? LastName { get; set; }
+        public AccessCode? AccessCode { get; set; }
+        [DisplayName("Registered Hunt")]
         public Hunt? Hunt{ get; set; }
         [NotMapped]
         public ICollection<string> Roles { get; set; }
     = new List<string>();
-
-        public string ListRoles()
-        {
-            return string.Join(",", Roles.ToArray());
-        }
-
     }
 }

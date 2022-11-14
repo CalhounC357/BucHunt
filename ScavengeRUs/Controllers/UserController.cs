@@ -29,10 +29,20 @@ namespace ScavengeRUs.Controllers
         /// This is the landing page for www.localhost.com/user/manage aka "Admin Portal"
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Manage()
+        public async Task<IActionResult> Manage(string searchString)
         {
             var users = await _userRepo.ReadAllAsync(); //Reads all the users in the db
-            return View(users);  //Right click and go to view to see HTML
+
+            //if the admin didn't search for anything just return all the users
+            if(string.IsNullOrEmpty(searchString))
+                return View(users);  //Right click and go to view to see HTML
+
+            //this line of code filters out all the users whose emails and phone numbers do not
+            //contain the search string
+            var searchResults = users.Where(user => user.Email.Contains(searchString) 
+            || !string.IsNullOrEmpty(user.PhoneNumber) && user.PhoneNumber.Contains(searchString));
+
+            return View(searchResults);
         }
         /// <summary>
         /// This is the HtmlGet landing page for editing a User
@@ -78,6 +88,7 @@ namespace ScavengeRUs.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
+        /// 
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed([Bind(Prefix = "id")]string username)
         {
@@ -99,6 +110,7 @@ namespace ScavengeRUs.Controllers
         /// This is the landing page to create a new user from the admin portal
         /// </summary>
         /// <returns></returns>
+
         public IActionResult Create()
         {
             return View();

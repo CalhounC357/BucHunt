@@ -92,6 +92,10 @@ namespace ScavengeRUs.Areas.Identity.Pages.Account
             [Display(Name = "Last Name")]
             public string LastName { get; set; } = String.Empty;
 
+            [Required]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; } = String.Empty;
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -128,6 +132,7 @@ namespace ScavengeRUs.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
+                user.PhoneNumber = Input.PhoneNumber;
                 
                 var roleCheckPlayer = await _roleManager.RoleExistsAsync("Player");
                 var roleCheckAdmin = await _roleManager.RoleExistsAsync("Admin");

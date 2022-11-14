@@ -15,13 +15,51 @@ namespace ScavengeRUs.Data
             : base(options)
         {
         }
+
+        public DbSet<Location> Location => Set<Location>();
+        public DbSet<Hunt> Hunts => Set<Hunt>();
+        public DbSet<AccessCode> AccessCodes => Set<AccessCode>();
+
+
+        /// <summary>
+        /// This sets up with cascade contraint when deleting related data in the DB
+        /// </summary>
+        /// <param name="builder"></param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+            builder.Entity<Hunt>()
+                .HasMany<AccessCode>(a => a.AccessCodes)
+                .WithOne(b => b.Hunt)
+                .HasForeignKey(b => b.HuntId)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<Hunt>()
+                .HasMany<ApplicationUser>(a => a.Players)
+                .WithOne(b => b.Hunt)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<ApplicationUser>()
+                .HasOne(a => a.AccessCode)
+                .WithMany(a => a.Users)     
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<ApplicationUser>()
+                .HasOne(a => a.Hunt)
+                .WithMany(a => a.Players)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<AccessCode>()
+                .HasMany<ApplicationUser>(a => a.Users)
+                .WithOne(a => a.AccessCode)
+
+                .OnDelete(DeleteBehavior.SetNull);            
+            builder.Entity<AccessCode>()
+                .HasOne(a => a.Hunt)
+                .WithMany(a => a.AccessCodes)
+                .HasForeignKey(a => a.HuntId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            
+
+
+            
         }
-        public DbSet<ScavengeRUs.Models.Entities.Location> Location { get; set; }
     }
 }
