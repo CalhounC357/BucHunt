@@ -12,11 +12,10 @@ namespace ScavengeRUs.Models.Entities
     {
         [Key]
         public int Id { get; set; }
-
-        [Display(Name = "Hunt Id")]
-        public int HuntId { get; set; }
         public string Place { get; set; } = string.Empty;
+        [Display(Name = "Latitude")]
         public double? Lat { get; set; }
+        [Display(Name = "Longitude")]
         public double? Lon { get; set; }
         public string Task { get; set; } = string.Empty;
 
@@ -26,5 +25,6 @@ namespace ScavengeRUs.Models.Entities
         [Display(Name = "QR Code")]
         public string? QRCode { get; set; }
         public string? Answer { get; set; }
+        public ICollection<HuntLocation> LocationHunts { get; set; } = new List<HuntLocation>();
     }
 }

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ScavengeRUs.Models.Entities.Location>
+
+@{
+    var hunt = (Hunt?)ViewData["Hunt"];
+    ViewData["Title"] = "Add Tasks to Hunt";
+}
+
+<h1>Add Tasks of @hunt.HuntName</h1>
+
+<p>
+    <a asp-action="ViewTasks" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="padding-left: 3px">Back to Tasks</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Place)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Task)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Place)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Task)
+                </td>
+                <td>
+                    @Html.ActionLink("Add Task", "AddTask", new {  id=item.Id,huntid=hunt.Id  })
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
