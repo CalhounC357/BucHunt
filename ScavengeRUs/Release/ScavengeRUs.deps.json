@@ -1,12 +1,12 @@
 {
   "runtimeTarget": {
-    "name": ".NETCoreApp,Version=v6.0/linux-arm64",
+    "name": ".NETCoreApp,Version=v6.0/linux-x64",
     "signature": ""
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {},
-    ".NETCoreApp,Version=v6.0/linux-arm64": {
+    ".NETCoreApp,Version=v6.0/linux-x64": {
       "ScavengeRUs/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "6.0.8",
@@ -1685,7 +1685,7 @@
       },
       "SQLitePCLRaw.lib.e_sqlite3/2.0.6": {
         "native": {
-          "runtimes/linux-arm64/native/libe_sqlite3.so": {
+          "runtimes/linux-x64/native/libe_sqlite3.so": {
             "fileVersion": "0.0.0.0"
           }
         }
