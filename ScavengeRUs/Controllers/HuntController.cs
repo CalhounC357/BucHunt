@@ -160,13 +160,14 @@ namespace ScavengeRUs.Controllers
             else
             {
                 newUser = existingUser;
+                newUser.AccessCode = user.AccessCode;
             }
-            if (newUser.AccessCode == null)       //If the admin didn't specify an access code (If we need to, I have the field readonly currently)
+            if (newUser.AccessCode!.Code == null)       //If the admin didn't specify an access code (If we need to, I have the field readonly currently)
             {
                 newUser.AccessCode = new AccessCode()
                 {
                     Hunt = hunt,                        //Setting foriegn key
-                    Code = $"{newUser.PhoneNumber}/{hunt.HuntName.Replace(" ", string.Empty)}",            //This is the access code generation
+                    Code = $"{newUser.PhoneNumber}/{hunt.HuntName!.Replace(" ", string.Empty)}",            //This is the access code generation
                 };
                 newUser.AccessCode.Users.Add(newUser);  //Setting foriegn key
             }

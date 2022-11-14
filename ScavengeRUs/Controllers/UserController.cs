@@ -110,6 +110,7 @@ namespace ScavengeRUs.Controllers
         /// This is the landing page to create a new user from the admin portal
         /// </summary>
         /// <returns></returns>
+
         public IActionResult Create()
         {
             return View();
