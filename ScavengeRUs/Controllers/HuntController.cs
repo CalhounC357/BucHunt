@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ScavengeRUs.Models.Entities;
 using ScavengeRUs.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace ScavengeRUs.Controllers
 {
@@ -228,6 +229,7 @@ namespace ScavengeRUs.Controllers
         [Authorize(Roles = "Player, Admin")]
         public async Task<IActionResult> ViewTasks(int huntid)
         {
+            //var currentUser = await _userRepo.ReadAsync(User.Identity?.Name!);
             var hunt = await _huntRepo.ReadHuntWithRelatedData(huntid);
             ViewData["Hunt"] = hunt;
             if (hunt == null)
@@ -236,6 +238,10 @@ namespace ScavengeRUs.Controllers
             }
             
             var locations = await _huntRepo.GetLocations(hunt.HuntLocations);
+            //if (currentUser.TasksCompleted != null)
+            //{
+            //    locations = (ICollection<Location>)locations.Except(currentUser.TasksCompleted!);
+            //}
             return View(locations);
             
         }
