@@ -1,5 +1,5 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -14,7 +14,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    color: #191970;
 }
 #taskimg {
     width: 100px;
@@ -58,9 +59,9 @@ body {
     background: #041E41;
 }
 
-    .button:hover {
-        background: gold;
-    }
+.button:hover {
+       background: gold;
+ }
 
 .right {
     right: 100%;
@@ -119,3 +120,24 @@ body {
 #taskRemove span{
 
 }
+
+
+.navbar {
+  background-color: #FFC72C;
+}
+
+.nav-link {
+  color: #191970;
+}
+
+.navbar-brand {
+    color: #191970;
+}
+
+.btn-primary {
+    background-color: #191970;
+}
+
+/*.navbar-toggler {
+    background-color: #191970;
+}*/
