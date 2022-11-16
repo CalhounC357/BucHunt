@@ -80,7 +80,7 @@ function getLocationAsync(callbackSuccess,callbackError) {
 }
 
 /*
- * Given a coords object, and the decimal forms of the target's latitude and longitude,
+ * Given a GeolocationCoordinates object, and the decimal forms of the target's latitude and longitude,
  * determines the player distance to the target in metres.
  */
 function distanceToLocation(coords, targetLat, targetLon) {
