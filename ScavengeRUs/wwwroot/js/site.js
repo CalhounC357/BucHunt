@@ -119,3 +119,18 @@ function distanceToStringMetric(distInMetres) {
         return (dist / 1000).toFixed(2) + 'Km'; // 2 digits fractional kilometres
     }
 }
+
+
+var offcampus = document.getElementById('offcanvas');
+console.log(offcampus);
+var sideBarOpen = document.getElementById("openSidebar");
+sideBarOpen.addEventListener('click', e => {
+    document.getElementById("toggleSidebar").click();
+    document.getElementById("taskarea").style.marginRight = "0px";
+})
+
+var sideBarClose = document.getElementById("closeSidebar");
+sideBarClose.addEventListener('click', e => {
+    document.getElementById("toggleSidebar").click();
+    document.getElementById("taskarea").style.marginRight = "0";
+})

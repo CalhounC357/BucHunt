@@ -31,6 +31,22 @@
         </tr>
     </thead>
     <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td>
+                    <span> No players are assigned to this hunt</span>
+                </td>
+                <td>
+                </td>                
+                <td>
+                </td>                
+                <td>
+                </td>                
+                <td>
+                </td>
+            </tr>
+        }
 
         @foreach (var item in Model)
         {

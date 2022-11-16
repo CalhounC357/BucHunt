@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ScavengeRUs.Models.Entities;
 using ScavengeRUs.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace ScavengeRUs.Controllers
 {
@@ -228,6 +229,7 @@ namespace ScavengeRUs.Controllers
         [Authorize(Roles = "Player, Admin")]
         public async Task<IActionResult> ViewTasks(int huntid)
         {
+            var currentUser = await _userRepo.ReadAsync(User.Identity?.Name!);
             var hunt = await _huntRepo.ReadHuntWithRelatedData(huntid);
             ViewData["Hunt"] = hunt;
             if (hunt == null)
@@ -235,8 +237,23 @@ namespace ScavengeRUs.Controllers
                 return RedirectToAction("Index");
             }
             
-            var locations = await _huntRepo.GetLocations(hunt.HuntLocations);
-            return View(locations);
+            var tasks = await _huntRepo.GetLocations(hunt.HuntLocations);
+                foreach (var item in tasks)
+                {
+                    if (currentUser.TasksCompleted != null)
+                    {
+                        var usertask = currentUser.TasksCompleted.FirstOrDefault(a => a.Id == item.Id);
+                        if (usertask != null && tasks.Contains(usertask))
+                        {
+                            item.Completed = "Completed";
+                        }
+                    }
+                    else
+                    {
+                        item.Completed = "Not completed";
+                    }
+                }
+            return View(tasks);
             
         }
         /// <summary>
