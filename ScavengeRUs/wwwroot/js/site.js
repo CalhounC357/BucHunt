@@ -36,6 +36,8 @@
  *      double? heading; // user's heading in degrees from [0,360), NaN if speed is 0, or null if not present
  *      double? speed; // user's speed in metres per second, or null if not present
  * }
+ * 
+ * An example use can be seen in Questions/Index.cshtml.
  */
 
 /*
