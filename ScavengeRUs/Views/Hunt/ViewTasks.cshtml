@@ -20,74 +20,21 @@
         <div class="col">
             <h1>@hunt.HuntName</h1>
         </div>
-@*        <div class="col">
-            <p style="text-align:right">Time remaining: @timeRemaining</p>
-        </div>*@
     </div>
     <p>
         @if (User.IsInRole("Admin"))
         {
-            <a asp-action="AddTasks" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="padding-right: 3px; color:red">Add Tasks</a>
+            <a asp-action="ManageTasks" asp-route-Id="@hunt.Id" style="padding-right: 3px; color:red">Manage Tasks</a>
+            <span style="color:Red"> | </span>
+            <a asp-action="ViewPlayers" asp-route-Id="@hunt.Id" style="padding-right: 3px; color:red">View Players</a>
             <span style="color:Red"> | </span>
             <a asp-action="Index" asp-route-Id="@hunt.Id" style="padding-left: 3px; color: Red">View all hunts</a>
             <span style="color:Red;">*** Only admins can see the red links</span>
             <hr />
         }
-
-
     </p>
     <h4>Introduction Text</h4>
     <p>@hunt.InvitationText</p>
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Place)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Task)
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (!Model.Any())
-        {
-            <tr>
-                <td>
-            <span> No tasks are assigned to this hunt</span>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-            </tr>
-        }
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(model => item.Place)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.Task)
-                </td>
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="RemoveTask" asp-route-Id="@item.Id" asp-route-huntid="@hunt.Id" style="padding-right: 3px; color:red">Remove</a>
-                        <span>|</span>
-                    }
-                    <a asp-action="Index" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="padding-right: 3px">Enter Answer</a>
-                </td>
-
-            </tr>
-        }
-    </tbody>
-</table>*@
 <hr />
 <br />
 <p id="huntHeader">Tasks for @hunt.HuntName</p>
@@ -97,7 +44,7 @@
             <hr><span style="text-align:center">No tasks are assigned to this hunt.</span>
             @if (User.IsInRole("Admin"))
             {
-                <a asp-action="AddTasks" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="text-align:center; color:red">Add Tasks</a>
+                <a asp-action="ManageTasks" asp-route-Id="@hunt.Id" style="text-align:center; color:red">Add Tasks</a>
             }
             <hr />
 

@@ -135,6 +135,12 @@ namespace ScavengeRUs.Services
             return await _db.Location.ToListAsync();
 
         }
+        /// <summary>
+        /// Adds Adds a task(location) to a hunt and creates the relationship in the db
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <param name="huntId"></param>
+        /// <returns></returns>
         public async Task AddLocation(int locationId, int huntId)
         {
             var location = await _db.Location.FirstOrDefaultAsync(a => a.Id == locationId);
