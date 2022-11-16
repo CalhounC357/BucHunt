@@ -24,12 +24,12 @@
     <p>
         @if (User.IsInRole("Admin"))
         {
-            <a asp-action="ManageTasks" asp-route-Id="@hunt.Id" style="padding-right: 3px; color:red">Manage Tasks</a>
-            <span style="color:Red"> | </span>
-            <a asp-action="ViewPlayers" asp-route-Id="@hunt.Id" style="padding-right: 3px; color:red">View Players</a>
-            <span style="color:Red"> | </span>
-            <a asp-action="Index" asp-route-Id="@hunt.Id" style="padding-left: 3px; color: Red">View all hunts</a>
-            <span style="color:Red;">*** Only admins can see the red links</span>
+            <a asp-action="ManageTasks" asp-route-Id="@hunt.Id"  class="btn btn-danger">Manage Tasks</a>
+            
+            <a asp-action="ViewPlayers" asp-route-Id="@hunt.Id" class="btn btn-danger">View Players</a>
+            
+            <a asp-action="Index" asp-route-Id="@hunt.Id" class="btn btn-danger">View all hunts</a>
+            <span style="color:Red;">*** Only admins can see/access the red buttons</span>
             <hr />
         }
     </p>
@@ -44,7 +44,7 @@
             <hr><span style="text-align:center">No tasks are assigned to this hunt.</span>
             @if (User.IsInRole("Admin"))
             {
-                <a asp-action="ManageTasks" asp-route-Id="@hunt.Id" style="text-align:center; color:red">Add Tasks</a>
+                <a asp-action="ManageTasks" asp-route-Id="@hunt.Id" style="width: 100px; margin: auto" class="btn btn-danger mt-3">Add Tasks</a>
             }
             <hr />
 
