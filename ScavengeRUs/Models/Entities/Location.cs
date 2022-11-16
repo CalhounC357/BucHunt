@@ -25,6 +25,7 @@ namespace ScavengeRUs.Models.Entities
 
         [Display(Name = "Access Code")]
         public string? AccessCode { get; set; }
+        public string? Completed { get; set; }
 
         [Display(Name = "QR Code")]
         public string? QRCode { get; set; }

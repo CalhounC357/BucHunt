@@ -57,6 +57,6 @@
     
     <form asp-action="RemoveTask">
         <input type="submit" value="Remove" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="ViewTasks" asp-route-id="0" asp-route-huntid="@hunt.Id">Back to List</a>
     </form>
 </div>

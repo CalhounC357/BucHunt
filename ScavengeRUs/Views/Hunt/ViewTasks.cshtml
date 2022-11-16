@@ -4,21 +4,41 @@
     var hunt = (Hunt?)ViewData["Hunt"];
     ViewData["Title"] = "View Players of hunt";
 }
-
-<h1>Tasks of @hunt.HuntName</h1>
-
-<p>
-    @if (User.IsInRole("Admin"))
+@{
+    var timeRemaining = (hunt.EndDate - DateTime.Now).ToString();
+    if (TimeSpan.Parse(timeRemaining).Seconds < 0)
     {
-        <a asp-action="AddTasks" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="padding-right: 3px; color:red">Add Tasks</a>
-        <span style="color:Red"> | </span>
-        <a asp-action="Index" asp-route-Id="@hunt.Id" style="padding-left: 3px; color: Red">Back to list of hunts</a>
-        <span style="color:Red"><br/>*** Only admins can only see the red links</span>
+        timeRemaining = "Ended";
     }
+    else
+    {
+        timeRemaining = timeRemaining.Substring(0, timeRemaining.LastIndexOf("."));
+    }
+}
+<div id="taskarea">
+    <div class="row">
+        <div class="col">
+            <h1>@hunt.HuntName</h1>
+        </div>
+        <div class="col">
+            <p style="text-align:right">Time remaining: @timeRemaining</p>
+        </div>
+    </div>
+    <p>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="AddTasks" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="padding-right: 3px; color:red">Add Tasks</a>
+            <span style="color:Red"> | </span>
+            <a asp-action="Index" asp-route-Id="@hunt.Id" style="padding-left: 3px; color: Red">View all hunts</a>
+            <span style="color:Red;">*** Only admins can see the red links</span>
+            <hr />
+        }
 
 
-</p>
-<table class="table">
+    </p>
+    <h4>Lorem Ipsum</h4>
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+@*<table class="table">
     <thead>
         <tr>
             <th>
@@ -40,6 +60,10 @@
                 </td>
                 <td>
                 </td>
+                <td>
+                </td>
+                <td>
+                </td>
             </tr>
         }
         @foreach (var item in Model)
@@ -51,17 +75,103 @@
                 <td>
                     @Html.DisplayFor(model => item.Task)
                 </td>
-                @if (User.IsInRole("Admin"))
-                {
                 <td>
+                    @if (User.IsInRole("Admin"))
+                    {
                         <a asp-action="RemoveTask" asp-route-Id="@item.Id" asp-route-huntid="@hunt.Id" style="padding-right: 3px; color:red">Remove</a>
-                </td>
-                }
-                <td>
+                        <span>|</span>
+                    }
                     <a asp-action="Index" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="padding-right: 3px">Enter Answer</a>
                 </td>
 
             </tr>
         }
     </tbody>
-</table>
+</table>*@
+<hr />
+<br />
+<p id="huntHeader">Tasks for @hunt.HuntName</p>
+<div class="list-group">
+     @if (!Model.Any())
+     {
+            <hr><span style="text-align:center">No tasks are assigned to this hunt.</span>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="AddTasks" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="text-align:center; color:red">Add Tasks</a>
+            }
+            <hr />
+
+     }
+
+        @foreach (var item in Model)
+    {
+
+        var img = $"/images/{item.Place}.jpg";
+        <div id="taskitem">
+            <a href="#" id="" class="list-group-item list-group-item-action">
+                <div class="row" id="taskrow">
+
+                    <div class="col">
+                        <img id="taskimg" src="@img" />
+                    </div>
+                    <div class="col-6">
+                        <div class="row" id="taskheader">
+                            @Html.DisplayFor(model => item.Place)
+                        </div>
+                        <div class="row" id="taskbody">
+                            @Html.DisplayFor(model => item.Task)
+                        </div>
+                    </div>
+                    <div class="col" >
+                            <div class="row" id="taskstatus">
+                            <span>Status</span>
+                        </div>
+                        <div class="row" id="taskbody">
+                            @if (item.Completed == "Completed")
+                                {
+                                    <span style="color:green">Completed</span>
+                                }
+                                else{
+                                    <span style="color:red">Incomplete</span>
+                                }
+                            
+                        </div>
+                    </div>
+                    <div class="col">
+                            <div class="row" id="taskAnswer">
+                                <span class="completeBtn">Complete <i class="fa-solid fa-angle-right"></i></span>
+                            </div>                          
+                    </div>
+                    @*
+                @if (User.IsInRole("Admin"))
+                {
+                <a asp-action="RemoveTask" asp-route-Id="@item.Id" asp-route-huntid="@hunt.Id" style="padding-right: 3px; color:red">Remove</a>
+                <span>|</span>
+                }*@
+                </div>
+
+            </a>
+        </div>
+    }
+
+</div>
+
+</div>
+<button hidden class="btn btn-primary" id="toggleSidebar" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"  aria-controls="offcanvasRight">Toggle right offcanvas</button>
+<div class="button left" id="openSidebar">
+    <div class="triangle-left"></div>
+</div>
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+    <div class="button right" id="closeSidebar">
+        <div class="triangle-right"></div>
+    </div>
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Hunt stats</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body">
+        <p></p>
+    </div>
+</div>
+</div>
