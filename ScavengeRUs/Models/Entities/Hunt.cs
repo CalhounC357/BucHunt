@@ -22,6 +22,8 @@ namespace ScavengeRUs.Models.Entities
         public DateTime StartDate{ get; set; }
         [DisplayName("End Date/Time"), Required]
         public DateTime EndDate { get; set; }
+        [DisplayName("Tasks")]
+        public ICollection<HuntLocation> HuntLocations { get; set; } = new List<HuntLocation>();  
         [DisplayName("Access Code")]
         public ICollection<AccessCode>? AccessCodes { get; set; } = new List<AccessCode>();
         public ICollection<ApplicationUser> Players { get; set; } = new List<ApplicationUser>();

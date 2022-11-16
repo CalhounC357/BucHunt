@@ -13,9 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.HuntId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Place)
             </th>
             <th>
@@ -42,9 +39,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.HuntId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Place)
             </td>

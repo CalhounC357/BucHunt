@@ -26,7 +26,13 @@
                 @Html.DisplayNameFor(model => model.EndDate)
             </th>
             <th>
+                Time Remaining
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Players)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HuntLocations)
             </th>
             <th></th>
         </tr>
@@ -47,10 +53,28 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
+                    @{
+                        var timeRemaining = (item.EndDate - DateTime.Now).ToString();
+                        if (TimeSpan.Parse(timeRemaining).Seconds<0)
+                        {
+                            timeRemaining = "Ended";
+                        }
+                        else
+                        {
+                            timeRemaining = timeRemaining.Substring(0, timeRemaining.LastIndexOf("."));
+                        }
+                }
+                    @Html.DisplayFor(modelItem => timeRemaining)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Players.Count)
              </td>
             <td>
+                @Html.DisplayFor(modelItem => item.HuntLocations.Count)
+            </td>
+            <td>
                 @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                @Html.ActionLink("View Hunt", "ViewTasks", new {  id=0,huntid=item.Id  }) |
                 @Html.ActionLink("View Players", "ViewPlayers", new {  id=item.Id  }) |
                 @Html.ActionLink("Delete Hunt", "Delete", new {  id=item.Id  })
             </td>

@@ -179,7 +179,9 @@ namespace ScavengeRUs.Services
             {
                 return null!;
             }
-            var user = await _db.Users.FirstOrDefaultAsync(u => u.AccessCode!.Code == accessCode);
+            var user = await _db.Users
+                .Include(a => a.Hunt)
+                .FirstOrDefaultAsync(u => u.AccessCode!.Code == accessCode);
             return user!;
         }
 

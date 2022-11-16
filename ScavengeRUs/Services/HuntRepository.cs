@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ScavengeRUs.Data;
 using ScavengeRUs.Models.Entities;
+using System.Runtime.InteropServices;
 
 namespace ScavengeRUs.Services
 {
@@ -36,6 +37,7 @@ namespace ScavengeRUs.Services
         public async Task<ICollection<Hunt>> ReadAllAsync()
         {
             var hunts = await _db.Hunts
+                .Include(a => a.HuntLocations)
                 .Include(h => h.Players)
                 .ToListAsync();
             return hunts;
@@ -47,7 +49,9 @@ namespace ScavengeRUs.Services
         /// <returns></returns>
         public async Task<Hunt> ReadAsync(int huntId)
         {
-            var hunt = await _db.Hunts.FindAsync(huntId);
+            var hunt = await _db.Hunts
+                .Include(l => l.HuntLocations)
+                .FirstOrDefaultAsync(a => a.Id == huntId);
 
             if (hunt != null)
             {
@@ -92,8 +96,57 @@ namespace ScavengeRUs.Services
                 
                 .Include(p => p.Players)
                 .ThenInclude(p => p.AccessCode)
+                .Include(p => p.HuntLocations)
                 .ToListAsync();
                 return hunts.FirstOrDefault(a => a.Id == huntId);
+        }
+        /// <summary>
+        /// This method read a location from the db passing the id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Location> ReadLocation(int id)
+        {
+            return await _db.Location.FirstOrDefaultAsync(a => a.Id == id);
+        }
+        /// <summary>
+        /// This method returns a list of locations passing a list of HuntLocation objects (aka the weak entity since its a many to many relationship)
+        /// </summary>
+        /// <param name="huntLocations"></param>
+        /// <returns></returns>
+        public async Task<ICollection<Location>> GetLocations(ICollection<HuntLocation> huntLocations)
+        {
+            var location = new Location();
+            ICollection<Location> Locations = new List<Location>();
+            foreach (var item in huntLocations)
+            {
+                location = await _db.Location.FirstOrDefaultAsync(a => a.Id == item.LocationId);
+                Locations.Add(location);
+            }
+            return Locations;
+
+        }
+        /// <summary>
+        /// This returns all locations in the db
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ICollection<Location>> GetAllLocations()
+        {
+            return await _db.Location.ToListAsync();
+
+        }
+        public async Task AddLocation(int locationId, int huntId)
+        {
+            var location = await _db.Location.FirstOrDefaultAsync(a => a.Id == locationId);
+            var hunt = await _db.Hunts.FirstOrDefaultAsync(a => a.Id == huntId);
+            var huntLocation = new HuntLocation()
+            {
+                Location = location,
+                Hunt = hunt,
+            };
+            hunt.HuntLocations.Add(huntLocation);
+            location.LocationHunts.Add(huntLocation);
+            await _db.SaveChangesAsync();
         }
         /// <summary>
         /// This methods adds a user to a hunt passing the huntId and a user
@@ -141,6 +194,20 @@ namespace ScavengeRUs.Services
                 hunt.Players.Remove(user);
                 await _db.SaveChangesAsync();
             }
+        }
+        /// <summary>
+        /// This method removes the task from a hunt. Deletes the relationship from the HuntLocation table
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="huntid"></param>
+        /// <returns></returns>
+        public async Task RemoveTaskFromHunt(int id, int huntid)
+        {
+            var hunt = await ReadAsync(huntid);
+            var huntLocation = hunt.HuntLocations.FirstOrDefault(a => a.LocationId == id);
+            hunt.HuntLocations.Remove(huntLocation);
+            await _db.SaveChangesAsync();
+
         }
     }
 }

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ScavengeRUs.Models.Entities.Location>
+@using Microsoft.AspNetCore.Identity
+@{
+    var hunt = (Hunt?)ViewData["Hunt"];
+    ViewData["Title"] = "View Players of hunt";
+}
+
+<h1>Tasks of @hunt.HuntName</h1>
+
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="AddTasks" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="padding-right: 3px; color:red">Add Tasks</a>
+        <span style="color:Red"> | </span>
+        <a asp-action="Index" asp-route-Id="@hunt.Id" style="padding-left: 3px; color: Red">Back to list of hunts</a>
+        <span style="color:Red"><br/>*** Only admins can only see the red links</span>
+    }
+
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Place)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Task)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td>
+            <span> No tasks are assigned to this hunt</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Place)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Task)
+                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                <td>
+                        <a asp-action="RemoveTask" asp-route-Id="@item.Id" asp-route-huntid="@hunt.Id" style="padding-right: 3px; color:red">Remove</a>
+                </td>
+                }
+                <td>
+                    <a asp-action="Index" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="padding-right: 3px">Enter Answer</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

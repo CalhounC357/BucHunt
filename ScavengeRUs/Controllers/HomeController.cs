@@ -51,7 +51,7 @@ namespace ScavengeRUs.Controllers
                 return View("Error", new ErrorViewModel() { Text = "Enter a valid access code." });
             }
             await _signInRepo.SignInAsync(user, false);
-            return RedirectToAction("Index"); // change to redirect to view of hunts
+            return RedirectToAction("ViewTasks", "Hunt", new {id = 0, huntid = user.Hunt.Id}); // change to redirect to view of hunts
         }
         /// <summary>
         /// This is the landing page for www.localhost.com/Home/Privacy
