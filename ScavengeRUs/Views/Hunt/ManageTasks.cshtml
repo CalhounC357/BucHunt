@@ -8,7 +8,8 @@
 <h1>Add Tasks of @hunt.HuntName</h1>
 
 <p>
-    <a asp-action="ViewTasks" asp-route-Id="0" asp-route-huntid="@hunt.Id" style="padding-left: 3px">Back to Tasks</a>
+    <a asp-controller="Locations" asp-action="Create" asp-route-Id="@hunt.Id" style="padding-left: 3px">Create new task</a> |
+    <a asp-action="ViewTasks" asp-route-Id="@hunt.Id" style="padding-left: 3px">Back to Hunt</a>
 
 </p>
 <table class="table">
@@ -35,7 +36,16 @@
                     @Html.DisplayFor(model => item.Task)
                 </td>
                 <td>
-                    @Html.ActionLink("Add Task", "AddTask", new {  id=item.Id,huntid=hunt.Id  })
+                    @{
+                        var locationCheck = hunt.HuntLocations.FirstOrDefault(a => a.LocationId == item.Id);
+                    }
+                    @if(locationCheck != null){
+                        @Html.ActionLink("Remove", "RemoveTask", new { id=item.Id,huntid=hunt.Id  }, new { @style = "color:red;"})
+                    }
+                    else{
+                        @Html.ActionLink("Add", "AddTask", new { id=item.Id,huntid=hunt.Id  })
+                    }
+
                 </td>
                 <td>
                 </td>

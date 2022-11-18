@@ -12,15 +12,20 @@ namespace ScavengeRUs.Models.Entities
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Place { get; set; } = string.Empty;
+        [Required]
         [Display(Name = "Latitude")]
         public double? Lat { get; set; }
+        [Required]
         [Display(Name = "Longitude")]
         public double? Lon { get; set; }
+        [Required]
         public string Task { get; set; } = string.Empty;
 
         [Display(Name = "Access Code")]
         public string? AccessCode { get; set; }
+        public string? Completed { get; set; }
 
         [Display(Name = "QR Code")]
         public string? QRCode { get; set; }

@@ -8,8 +8,8 @@
 <h1>Active Users of @hunt.HuntName</h1>
 
 <p>
-    <a asp-action="AddPlayerToHunt" asp-route-Id="@hunt.Id" style="padding-right: 3px">Add a user to this Hunt</a> |
-    <a asp-action="Index" asp-route-Id="@hunt.Id" style="padding-left: 3px">Back to list of hunts</a>
+    <a asp-action="ViewTasks" asp-route-Id="@hunt.Id" style="padding-left: 3px">Back to hunt</a> |
+    <a asp-action="AddPlayerToHunt" asp-route-Id="@hunt.Id" style="padding-right: 3px">Add a user to this Hunt</a>
 
 </p>
 <table class="table">
@@ -31,6 +31,22 @@
         </tr>
     </thead>
     <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td>
+                    <span> No players are assigned to this hunt</span>
+                </td>
+                <td>
+                </td>                
+                <td>
+                </td>                
+                <td>
+                </td>                
+                <td>
+                </td>
+            </tr>
+        }
 
         @foreach (var item in Model)
         {
@@ -48,8 +64,6 @@
                     @Html.DisplayFor(model => item.AccessCode.Code)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.UserName }) |
-                    @*@Html.ActionLink("Details", "Details", new { id=item.UserName }) |*@
                     @Html.ActionLink("Revoke Access", "RemoveUser", new { id=item.UserName, huntId=hunt.Id })
                 </td>
             </tr>

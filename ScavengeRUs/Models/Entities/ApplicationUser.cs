@@ -23,6 +23,7 @@ namespace ScavengeRUs.Models.Entities
         public AccessCode? AccessCode { get; set; }
         [DisplayName("Registered Hunt")]
         public Hunt? Hunt{ get; set; }
+        public ICollection<Location>? TasksCompleted { get; set; }
         [NotMapped]
         public ICollection<string> Roles { get; set; }
     = new List<string>();
