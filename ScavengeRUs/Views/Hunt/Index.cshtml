@@ -8,7 +8,7 @@
 
 <p>
     <a asp-action="Create" style="padding-right: 3px">Create New Hunt</a> |
-    <a asp-controller="locations" asp-action="Index" style="padding-right: 3px">Manage Tasks</a> |
+    <a asp-controller="locations" asp-action="Index" style="padding-right: 3px">Manage All Tasks</a> |
     <a asp-controller="User" asp-action="Manage" style="padding-left: 3px">Back to Admin Portal</a>
 </p>
 <table class="table">
@@ -75,8 +75,7 @@
             </td>
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
-                @Html.ActionLink("View Hunt", "ViewTasks", new {  id=0,huntid=item.Id  }) |
-                @Html.ActionLink("View Players", "ViewPlayers", new {  id=item.Id  }) |
+                @Html.ActionLink("View Hunt", "ViewTasks", new {  id=item.Id  }) |
                 @Html.ActionLink("Delete Hunt", "Delete", new {  id=item.Id  })
             </td>
         </tr>

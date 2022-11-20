@@ -62,7 +62,7 @@ namespace ScavengeRUs.Controllers
         /// website
         /// </summary>
         /// <returns></returns>
-        public IActionResult Create()
+        public IActionResult Create([Bind(Prefix = "Id")] int huntid)
         {
             return View();
         }
@@ -74,12 +74,16 @@ namespace ScavengeRUs.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,HuntId,Place,Lat,Lon,Task,AccessCode,QRCode,Answer")] Location location)
+        public async Task<IActionResult> Create([Bind(Prefix = "Id")] int huntid, Location location)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(location);
                 await _context.SaveChangesAsync();
+                if (huntid != 0)
+                {
+                    return RedirectToAction("ManageTasks", "Hunt", new { id = huntid });
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(location);

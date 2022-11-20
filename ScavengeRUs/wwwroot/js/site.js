@@ -3,16 +3,53 @@
 
 // Write your JavaScript code.
 
+/*
+ * Library-style JS should go here. Beware functions that are async and accept callbacks. These are marked with Async suffixes.
+ */
+
+
+/*
+ * ## Location-handling API ##
+ * 
+ * Contains async functions for querying the user GPS location, if able. This wraps the slightly lower
+ * level browser API. Locations are handled as GeolocationCoordinates objects. For more reference,
+ * see <https://developer.mozilla.org/en-US/docs/Web/API/GeolocationCoordinates>. Note that not all devices
+ * can return altitude, altitude accuracy, speed or heading information. They will be null if this is the case.
+ * 
+ * All latitude/longitude units are handled internally as decimal degrees where positive values are north/east
+ * and negative values are south/west. ETSU, for reference, is north and west, so latitude should be positive,
+ * and longitude should be negative (if this isn't the case, something is wrong!). Degrees-minutes-seconds format
+ * is not used.
+ * 
+ * All distance units are internally handled as metric metres. Functions are available for conversion to
+ * American customary/Imperial units for display purposes.
+ * 
+ * Only the latitude, longitude, and accuracy values should be relevant for BucHunt. A device capable of location
+ * services should provide all three values or none of them.
+ * 
+ * GeolocationCoordinates {
+ *      double latitude; // latitude in decimal degrees
+ *      double longitude; // longitude in decimal degress
+ *      double? altitude; // altitude in metres, or null if not present
+ *      double accuracy; // accuracy of latitude/longitude in metres
+ *      double? altitudeAccuracy; // altitude accuracy in metres, or null if not present
+ *      double? heading; // user's heading in degrees from [0,360), NaN if speed is 0, or null if not present
+ *      double? speed; // user's speed in metres per second, or null if not present
+ * }
+ * 
+ * An example use can be seen in Questions/Index.cshtml.
+ */
 
 /*
  * Get the user's location async.
  * On success, callbackSuccess is called with a GeolocationCoordinates object describing the coordinates of the user at highest
  * accuracy available. On failure, callbackError is called with an error code describing why the call failed.
+ * At most 5 seconds will be taken to determine location.
  * Error codes:
  * 1 - Device does not support geolocation
  * 2 - User denied geolocation permission
  * 3 - Not enough functioning geolocators
- * 4 - Call timed out before data could be acquired
+ * 4 - Call timed out before data could be acquired (5 seconds)
  */
 function getLocationAsync(callbackSuccess,callbackError) {
     var geoapi = navigator.geolocation;
@@ -45,7 +82,7 @@ function getLocationAsync(callbackSuccess,callbackError) {
 }
 
 /*
- * Given a coords object, and the decimal forms of the target's latitude and longitude,
+ * Given a GeolocationCoordinates object, and the decimal forms of the target's latitude and longitude,
  * determines the player distance to the target in metres.
  */
 function distanceToLocation(coords, targetLat, targetLon) {
