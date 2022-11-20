@@ -137,10 +137,10 @@ namespace ScavengeRUs.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Profile([Bind(Prefix ="Id")]string username)
+        public async Task<IActionResult> Profile()
         {
-            var user = await _userRepo.ReadAsync(username);
-            return View(user);
+            var currentUser = await _userRepo.ReadAsync(User.Identity?.Name!);
+            return View(currentUser);
         }
     }
 }
