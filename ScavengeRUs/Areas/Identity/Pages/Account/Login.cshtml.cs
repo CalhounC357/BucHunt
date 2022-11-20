@@ -15,16 +15,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using ScavengeRUs.Models.Entities;
+using ScavengeRUs.Services;
 
 namespace ScavengeRUs.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
+        private readonly IUserRepository _userRepo;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, IUserRepository userRepo)
         {
+            _userRepo = userRepo;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -116,7 +119,9 @@ namespace ScavengeRUs.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
                     return LocalRedirect(returnUrl);
+
                 }
                 if (result.RequiresTwoFactor)
                 {

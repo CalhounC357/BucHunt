@@ -10,6 +10,11 @@ namespace ScavengeRUs.Services
         Task AddUserToHunt(int huntId, ApplicationUser user);
         Task<Hunt> CreateAsync(Hunt hunt);
         Task DeleteAsync(int huntId);
-        Task RemoveUserFromHunt(string username, int huntId);   
+        Task RemoveUserFromHunt(string username, int huntId);
+        Task<ICollection<Location>> GetLocations(ICollection<HuntLocation> huntLocations);
+        Task<ICollection<Location>> GetAllLocations();
+        Task AddLocation(int locationId, int huntId);
+        Task<Location> ReadLocation(int id);
+        Task RemoveTaskFromHunt(int id, int huntid);
     }
 }

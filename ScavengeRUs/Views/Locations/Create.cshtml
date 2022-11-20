@@ -4,23 +4,22 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>Location</h4>
+<h3>Create new task</h3>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="HuntId" class="control-label"></label>
-                <input asp-for="HuntId" class="form-control" />
-                <span asp-validation-for="HuntId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Place" class="control-label"></label>
                 <input asp-for="Place" class="form-control" />
                 <span asp-validation-for="Place" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Task" class="control-label"></label>
+                <textarea asp-for="Task" class="form-control" ></textarea>
+                <span asp-validation-for="Task" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Lat" class="control-label"></label>
@@ -33,18 +32,8 @@
                 <span asp-validation-for="Lon" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Task" class="control-label"></label>
-                <input asp-for="Task" class="form-control" />
-                <span asp-validation-for="Task" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AccessCode" class="control-label"></label>
-                <input asp-for="AccessCode" class="form-control" />
-                <span asp-validation-for="AccessCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="QRCode" class="control-label"></label>
-                <input asp-for="QRCode" class="form-control" />
+                <input asp-for="QRCode" readonly placeholder="Add code to generate a qr code here" class="form-control" />
                 <span asp-validation-for="QRCode" class="text-danger"></span>
             </div>
             <div class="form-group">

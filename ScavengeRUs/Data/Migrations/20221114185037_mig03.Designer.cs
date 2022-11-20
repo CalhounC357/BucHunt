@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScavengeRUs.Data;
 
@@ -10,9 +11,10 @@ using ScavengeRUs.Data;
 namespace ScavengeRUs.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221114185037_mig03")]
+    partial class mig03
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
@@ -267,6 +269,9 @@ namespace ScavengeRUs.Data.Migrations
                     b.Property<string>("InvitationText")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
@@ -274,6 +279,8 @@ namespace ScavengeRUs.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Hunts");
                 });
@@ -311,18 +318,13 @@ namespace ScavengeRUs.Data.Migrations
                     b.Property<string>("Answer")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Completed")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("HuntId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("Lat")
-                        .IsRequired()
                         .HasColumnType("REAL");
 
                     b.Property<double?>("Lon")
-                        .IsRequired()
                         .HasColumnType("REAL");
 
                     b.Property<string>("Place")
@@ -337,8 +339,6 @@ namespace ScavengeRUs.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Location");
                 });
@@ -422,16 +422,23 @@ namespace ScavengeRUs.Data.Migrations
                     b.Navigation("Hunt");
                 });
 
+            modelBuilder.Entity("ScavengeRUs.Models.Entities.Hunt", b =>
+                {
+                    b.HasOne("ScavengeRUs.Models.Entities.Location", null)
+                        .WithMany("Hunts")
+                        .HasForeignKey("LocationId");
+                });
+
             modelBuilder.Entity("ScavengeRUs.Models.Entities.HuntLocation", b =>
                 {
                     b.HasOne("ScavengeRUs.Models.Entities.Hunt", "Hunt")
-                        .WithMany("HuntLocations")
+                        .WithMany()
                         .HasForeignKey("HuntId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ScavengeRUs.Models.Entities.Location", "Location")
-                        .WithMany("LocationHunts")
+                        .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -441,35 +448,21 @@ namespace ScavengeRUs.Data.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("ScavengeRUs.Models.Entities.Location", b =>
-                {
-                    b.HasOne("ScavengeRUs.Models.Entities.ApplicationUser", null)
-                        .WithMany("TasksCompleted")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
             modelBuilder.Entity("ScavengeRUs.Models.Entities.AccessCode", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("ScavengeRUs.Models.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("TasksCompleted");
                 });
 
             modelBuilder.Entity("ScavengeRUs.Models.Entities.Hunt", b =>
                 {
                     b.Navigation("AccessCodes");
 
-                    b.Navigation("HuntLocations");
-
                     b.Navigation("Players");
                 });
 
             modelBuilder.Entity("ScavengeRUs.Models.Entities.Location", b =>
                 {
-                    b.Navigation("LocationHunts");
+                    b.Navigation("Hunts");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScavengeRUs.Data;
 
@@ -10,9 +11,10 @@ using ScavengeRUs.Data;
 namespace ScavengeRUs.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221114192726_mig04")]
+    partial class mig04
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
@@ -311,18 +313,13 @@ namespace ScavengeRUs.Data.Migrations
                     b.Property<string>("Answer")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Completed")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("HuntId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("Lat")
-                        .IsRequired()
                         .HasColumnType("REAL");
 
                     b.Property<double?>("Lon")
-                        .IsRequired()
                         .HasColumnType("REAL");
 
                     b.Property<string>("Place")
@@ -337,8 +334,6 @@ namespace ScavengeRUs.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Location");
                 });
@@ -441,21 +436,9 @@ namespace ScavengeRUs.Data.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("ScavengeRUs.Models.Entities.Location", b =>
-                {
-                    b.HasOne("ScavengeRUs.Models.Entities.ApplicationUser", null)
-                        .WithMany("TasksCompleted")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
             modelBuilder.Entity("ScavengeRUs.Models.Entities.AccessCode", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("ScavengeRUs.Models.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("TasksCompleted");
                 });
 
             modelBuilder.Entity("ScavengeRUs.Models.Entities.Hunt", b =>

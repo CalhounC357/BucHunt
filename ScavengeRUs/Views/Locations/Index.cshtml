@@ -4,34 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>All Tasks</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create new task</a> | 
+    <a asp-controller="Hunt" asp-action="Index">Back to hunts</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.HuntId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Place)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lon)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Task)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccessCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.QRCode)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Answer)
@@ -43,25 +29,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.HuntId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Place)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lon)
-            </td>
-            <td>
+            <td width="40%">
                 @Html.DisplayFor(modelItem => item.Task)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccessCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QRCode)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Answer)

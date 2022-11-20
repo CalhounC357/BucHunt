@@ -9,7 +9,7 @@
 
 <p>
     <a asp-action="Create" style="padding-left: 3px">Create New User</a> |
-    <a asp-area="" asp-controller="Hunt" asp-action="Index" style="padding-right: 3px">Manage Hunts</a>
+    <a asp-area="" asp-controller="Hunt" asp-action="Index" style="padding-right: 3px">Manage Hunts/Tasks</a>
 </p>
 
 <form asp-controller="User" asp-action="Manage">
@@ -26,10 +26,10 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Roles)
@@ -47,10 +47,10 @@
                 @Html.DisplayFor(model => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(model => item.FirstName)
+                    @Html.DisplayFor(model => item.FirstName) @Html.DisplayFor(model => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(model => item.LastName)
+                    @Html.DisplayFor(model => item.PhoneNumber)
             </td>
             <td>   
                 @foreach (var role in item.Roles)
