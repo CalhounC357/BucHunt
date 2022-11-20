@@ -133,9 +133,9 @@ namespace ScavengeRUs.Controllers
             
         }
         /// <summary>
-        /// This is the profile page for a user /user/profile/username
+        /// This is the profile page for a user /user/profile/
         /// </summary>
-        /// <param name="username"></param>
+        /// <param></param>
         /// <returns></returns>
         public async Task<IActionResult> Profile()
         {
