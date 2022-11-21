@@ -133,14 +133,14 @@ namespace ScavengeRUs.Controllers
             
         }
         /// <summary>
-        /// This is the profile page for a user /user/profile/username
+        /// This is the profile page for a user /user/profile/
         /// </summary>
-        /// <param name="username"></param>
+        /// <param></param>
         /// <returns></returns>
-        public async Task<IActionResult> Profile([Bind(Prefix ="Id")]string username)
+        public async Task<IActionResult> Profile()
         {
-            var user = await _userRepo.ReadAsync(username);
-            return View(user);
+            var currentUser = await _userRepo.ReadAsync(User.Identity?.Name!);
+            return View(currentUser);
         }
     }
 }
