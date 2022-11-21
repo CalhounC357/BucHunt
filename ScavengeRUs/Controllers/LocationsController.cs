@@ -8,12 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using ScavengeRUs.Data;
 using ScavengeRUs.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Routing;
+using ScavengeRUs.Services;
 
 namespace ScavengeRUs.Controllers
 {
     [Authorize(Roles = "Admin")] //makes sure that only admin can see this page
     public class LocationsController : Controller
     {
+        private readonly IUserRepository _userRepo;
+        private readonly IHuntRepository _huntRepo;
         private readonly ApplicationDbContext _context;
 
         /// <summary>
@@ -21,8 +25,10 @@ namespace ScavengeRUs.Controllers
         /// the database
         /// </summary>
         /// <param name="context"></param>
-        public LocationsController(ApplicationDbContext context)
+        public LocationsController(ApplicationDbContext context, IHuntRepository huntRepo, IUserRepository userRepo)
         {
+            _userRepo = userRepo;
+            _huntRepo = huntRepo;
             _context = context;
         }
 
@@ -201,6 +207,22 @@ namespace ScavengeRUs.Controllers
         private bool LocationExists(int id)
         {
           return _context.Location.Any(e => e.Id == id);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ValidateAnswer([FromForm]int id, int taskid, string answer)
+        {
+            var currentUser = await _userRepo.ReadAsync(User.Identity?.Name!);
+            var location = await _context.Location.FirstOrDefaultAsync(m => m.Id == taskid);
+            if (answer != null && answer.Equals(location?.Answer, StringComparison.OrdinalIgnoreCase))
+            {
+                currentUser?.TasksCompleted!.Add(location);
+                await _context.SaveChangesAsync();
+                return Json(new { success = true});
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
         }
     }
 }

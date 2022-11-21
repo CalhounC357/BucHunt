@@ -8,9 +8,9 @@ namespace ScavengeRUs.Models.Entities
         public int Id { get; set; }
         [DisplayName("Access Code")]
         public string? Code { get; set; }
-        public int HuntId { get; set; }
+        public int HuntId { get; set; } //Foreign key
         [NotMapped]
-        public Hunt? Hunt{ get; set; }
+        public Hunt? Hunt{ get; set; } //Navigation property
         public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
     }
 }

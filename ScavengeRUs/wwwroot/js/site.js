@@ -1,4 +1,6 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+﻿"using strict"
+
+// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
@@ -133,4 +135,66 @@ var sideBarClose = document.getElementById("closeSidebar");
 sideBarClose.addEventListener('click', e => {
     document.getElementById("toggleSidebar").click();
     document.getElementById("taskarea").style.marginRight = "0";
-})
+});
+
+(function _homeIndexMain() {
+    const createTaskModalDOM = document.querySelector("#createTaskModal");
+    const createTaskModal = new bootstrap.Modal(createTaskModalDOM);
+    const createTaskButton = document.querySelectorAll("#btnCreateTask");
+    console.log(createTaskButton);
+    createTaskButton.forEach(item => {
+        item.addEventListener("click", event => {
+            var TaskId = $(item).data("id");
+            var HuntId = $(item).data("huntid");
+            var Task = $(item).data("task");
+
+            console.log(TaskId);
+            $('#TaskIdInput').val(TaskId);
+            $('#HuntIdInput').val(HuntId);
+            $('#TaskInput').text(Task);
+            createTaskModal.show();
+        })
+    })
+    $("#createTaskModal2").submit(function (event) {
+        var formData = {
+            id: $("#HuntIdInput").val(),
+            taskid: $("#TaskIdInput").val(),
+            answer: $("#AnswerInput").val(),
+        };
+        console.log(formData);
+
+        $.ajax({
+            type: "POST",
+            url: "../../Locations/Validateanswer",
+            data: formData,
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    $('#successMessageArea').html("Success! Task Completed.");
+                    $('#alertAreaSuccess').show();
+                    // After 500ms, fade out over 500ms
+                    setInterval(() => {
+                        $('#alertAreaSuccess').fadeOut(1500);
+                    }, 1500);
+                    setTimeout(() => {
+                        createTaskModal.hide();
+                    }, 1500);
+                }
+                else {
+                    $('#failedMessageArea').html("Incorrect! Try again.");
+                    $('#alertAreaFailed').show();
+                    // After 500ms, fade out over 500ms
+                    setInterval(() => {
+                        $('#alertAreaFailed').fadeOut(1500);
+                    }, 1500); 
+                }
+            },
+        }).done(function (data) {
+            console.log(data);
+        });
+        event.preventDefault();
+    });
+}());
+$(document).ready(function () {
+    
+});
