@@ -208,21 +208,25 @@ namespace ScavengeRUs.Controllers
         {
           return _context.Location.Any(e => e.Id == id);
         }
+        /// <summary>
+        /// This method validates an answer for a task. Used by an AJAX call from the hunt page. See site.js
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="taskid"></param>
+        /// <param name="answer"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> ValidateAnswer([FromForm]int id, int taskid, string answer)
         {
-            var currentUser = await _userRepo.ReadAsync(User.Identity?.Name!);
-            var location = await _context.Location.FirstOrDefaultAsync(m => m.Id == taskid);
-            if (answer != null && answer.Equals(location?.Answer, StringComparison.OrdinalIgnoreCase))
+            var currentUser = await _userRepo.ReadAsync(User.Identity?.Name!);                              //gets current user
+            var location = await _context.Location.FirstOrDefaultAsync(m => m.Id == taskid);                //gets the task
+            if (answer != null && answer.Equals(location?.Answer, StringComparison.OrdinalIgnoreCase))      //check is answer matches
             {
-                currentUser?.TasksCompleted!.Add(location);
-                await _context.SaveChangesAsync();
+                currentUser?.TasksCompleted!.Add(location); //Update the players completed tasks
+                await _context.SaveChangesAsync();          
                 return Json(new { success = true});
             }
-            else
-            {
-                return Json(new { success = false });
-            }
+            return Json(new { success = false });
         }
     }
 }

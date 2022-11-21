@@ -5,7 +5,7 @@
     ViewData["Title"] = "View Players of hunt";
 }
 @{
-    var timeRemaining = (hunt.EndDate - DateTime.Now).ToString();
+    var timeRemaining = (hunt!.EndDate - DateTime.Now).ToString();
     if (TimeSpan.Parse(timeRemaining).Seconds < 0)
     {
         timeRemaining = "Ended";
@@ -15,14 +15,11 @@
         timeRemaining = timeRemaining.Substring(0, timeRemaining.LastIndexOf("."));
     }
 }
-
+ @*Task Modal*@
 <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div id="mainContent" class="modal-content">
-
-            <form id="createTaskModal2">
-                @*asp-controller="Locations" asp-action="ValidateAnswer" asp-route-id="@hunt.Id" asp-route-taskid="TaskIdInput" asp-route-answer="Answer"*@
-
+            <form id="createTaskModal">
                 <div class="modal-header">
                     <h5 class="modalTitle" id="AddItemTitle">
                         Scan QR code or enter answer
@@ -32,9 +29,7 @@
                     </button>
 
                 </div>
-
                 <div class="modal-body">
-
                     <div id="alertAreaSuccess" class="alert alert-success" role="alert" style="display:none">
                         <span id="successMessageArea"></span>
                     </div>
@@ -54,7 +49,6 @@
                             Answer
                         </label>
                         <div class="col-sm-10">
-
                             <input name="Answer" id="AnswerInput" class="form-control" />
                             <input name="TaskId" hidden id="TaskIdInput" class="form-control" />
                             <input name="HuntId" hidden id="HuntIdInput" class="form-control" />
@@ -71,6 +65,9 @@
         </div>
     </div>
 </div>
+@*Task Modal*@
+
+
 <div id="taskarea">
     <div class="row">
         <div class="col">
@@ -149,12 +146,6 @@
                                 <span class="completeBtn">Complete <i class="fa-solid fa-angle-right"></i></span>
                             </div>
                         </div>
-                        @*
-                    @if (User.IsInRole("Admin"))
-                    {
-                    <a asp-action="RemoveTask" asp-route-Id="@item.Id" asp-route-huntid="@hunt.Id" style="padding-right: 3px; color:red">Remove</a>
-                    <span>|</span>
-                    }*@
                     </div>
 
                 </a>
@@ -164,6 +155,10 @@
     </div>
 
 </div>
+
+
+
+@*Sidebar*@
 <button hidden class="btn btn-primary" id="toggleSidebar" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasRight">Toggle right offcanvas</button>
 <div class="button left" id="openSidebar">
     <div class="triangle-left"></div>
@@ -184,5 +179,4 @@
         <p>Current rank: </p>
         <p>Time remaining: @timeRemaining</p>
     </div>
-</div>
 </div>

@@ -125,19 +125,19 @@ function distanceToStringMetric(distInMetres) {
 
 var offcampus = document.getElementById('offcanvas');
 console.log(offcampus);
-var sideBarOpen = document.getElementById("openSidebar");
+var sideBarOpen = document.getElementById("openSidebar"); //Open sidebar on the hunt page
 sideBarOpen.addEventListener('click', e => {
     document.getElementById("toggleSidebar").click();
     document.getElementById("taskarea").style.marginRight = "0px";
 })
 
-var sideBarClose = document.getElementById("closeSidebar");
+var sideBarClose = document.getElementById("closeSidebar"); //Close sidebar on hunt page
 sideBarClose.addEventListener('click', e => {
     document.getElementById("toggleSidebar").click();
     document.getElementById("taskarea").style.marginRight = "0";
 });
 
-(function _homeIndexMain() {
+(function _homeIndexMain() {        //This function handles the modal on the hunt page
     const createTaskModalDOM = document.querySelector("#createTaskModal");
     const createTaskModal = new bootstrap.Modal(createTaskModalDOM);
     const createTaskButton = document.querySelectorAll("#btnCreateTask");
@@ -149,20 +149,18 @@ sideBarClose.addEventListener('click', e => {
             var Task = $(item).data("task");
 
             console.log(TaskId);
-            $('#TaskIdInput').val(TaskId);
+            $('#TaskIdInput').val(TaskId);  //Passing parameters to the modal
             $('#HuntIdInput').val(HuntId);
-            $('#TaskInput').text(Task);
+            $('#TaskInput').text(Task); //Set the task question in the modal
             createTaskModal.show();
         })
     })
-    $("#createTaskModal2").submit(function (event) {
+    $("#createTaskModal").submit(function (event) { //On modal submit it passes the form data with huntid, taskid, and answer to an AJAX request in the locations controller
         var formData = {
             id: $("#HuntIdInput").val(),
             taskid: $("#TaskIdInput").val(),
             answer: $("#AnswerInput").val(),
         };
-        console.log(formData);
-
         $.ajax({
             type: "POST",
             url: "../../Locations/Validateanswer",
@@ -195,6 +193,3 @@ sideBarClose.addEventListener('click', e => {
         event.preventDefault();
     });
 }());
-$(document).ready(function () {
-    
-});
