@@ -161,7 +161,6 @@ function distanceToStringMetric(distInMetres) {
 
 
 var offcampus = document.getElementById('offcanvas');
-console.log(offcampus);
 var sideBarOpen = document.getElementById("openSidebar"); //Open sidebar on the hunt page
 sideBarOpen.addEventListener('click', e => {
     document.getElementById("toggleSidebar").click();
@@ -178,18 +177,20 @@ sideBarClose.addEventListener('click', e => {
     const createTaskModalDOM = document.querySelector("#createTaskModal");
     const createTaskModal = new bootstrap.Modal(createTaskModalDOM);
     const createTaskButton = document.querySelectorAll("#btnCreateTask");
-    console.log(createTaskButton);
+ //   console.log(createTaskButton);
     createTaskButton.forEach(item => {
         item.addEventListener("click", event => {
             var TaskId = $(item).data("id");
             var HuntId = $(item).data("huntid");
             var Task = $(item).data("task");
 
-            console.log(TaskId);
             $('#TaskIdInput').val(TaskId);  //Passing parameters to the modal
             $('#HuntIdInput').val(HuntId);
             $('#TaskInput').text(Task); //Set the task question in the modal
-            createTaskModal.show();
+            console.log($('a[data-id="' + TaskId + '"] #status').text());
+            if ($('a[data-id="' + TaskId + '"] #status').text() == "Incomplete") { //Only show modal if task is incomplete
+                createTaskModal.show();
+            }
         })
     })
     $("#createTaskModal").submit(function (event) { //On modal submit it passes the form data with huntid, taskid, and answer to an AJAX request in the locations controller
@@ -207,6 +208,8 @@ sideBarClose.addEventListener('click', e => {
                 if (response.success) {
                     $('#successMessageArea').html("Success! Task Completed.");
                     $('#alertAreaSuccess').show();
+                    //console.log(formData.taskid);
+                    $('a[data-id="' + formData.taskid + '"] #status').text('Completed').css({ "color": "Green" }); //Change text to completed if success
                     // After 500ms, fade out over 500ms
                     setInterval(() => {
                         $('#alertAreaSuccess').fadeOut(1500);
