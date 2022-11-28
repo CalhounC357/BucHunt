@@ -8,12 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using ScavengeRUs.Data;
 using ScavengeRUs.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Routing;
+using ScavengeRUs.Services;
 
 namespace ScavengeRUs.Controllers
 {
     [Authorize(Roles = "Admin")] //makes sure that only admin can see this page
     public class LocationsController : Controller
     {
+        private readonly IUserRepository _userRepo;
+        private readonly IHuntRepository _huntRepo;
         private readonly ApplicationDbContext _context;
 
         /// <summary>
@@ -21,8 +25,10 @@ namespace ScavengeRUs.Controllers
         /// the database
         /// </summary>
         /// <param name="context"></param>
-        public LocationsController(ApplicationDbContext context)
+        public LocationsController(ApplicationDbContext context, IHuntRepository huntRepo, IUserRepository userRepo)
         {
+            _userRepo = userRepo;
+            _huntRepo = huntRepo;
             _context = context;
         }
 
@@ -201,6 +207,26 @@ namespace ScavengeRUs.Controllers
         private bool LocationExists(int id)
         {
           return _context.Location.Any(e => e.Id == id);
+        }
+        /// <summary>
+        /// This method validates an answer for a task. Used by an AJAX call from the hunt page. See site.js
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="taskid"></param>
+        /// <param name="answer"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> ValidateAnswer([FromForm]int id, int taskid, string answer)
+        {
+            var currentUser = await _userRepo.ReadAsync(User.Identity?.Name!);                              //gets current user
+            var location = await _context.Location.FirstOrDefaultAsync(m => m.Id == taskid);                //gets the task
+            if (answer != null && answer.Equals(location?.Answer, StringComparison.OrdinalIgnoreCase))      //check is answer matches
+            {
+                currentUser?.TasksCompleted!.Add(location); //Update the players completed tasks
+                await _context.SaveChangesAsync();          
+                return Json(new { success = true});
+            }
+            return Json(new { success = false });
         }
     }
 }

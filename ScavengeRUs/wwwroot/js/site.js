@@ -1,4 +1,6 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+﻿"using strict"
+
+// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
@@ -160,14 +162,71 @@ function distanceToStringMetric(distInMetres) {
 
 var offcampus = document.getElementById('offcanvas');
 console.log(offcampus);
-var sideBarOpen = document.getElementById("openSidebar");
+var sideBarOpen = document.getElementById("openSidebar"); //Open sidebar on the hunt page
 sideBarOpen.addEventListener('click', e => {
     document.getElementById("toggleSidebar").click();
     document.getElementById("taskarea").style.marginRight = "0px";
 })
 
-var sideBarClose = document.getElementById("closeSidebar");
+var sideBarClose = document.getElementById("closeSidebar"); //Close sidebar on hunt page
 sideBarClose.addEventListener('click', e => {
     document.getElementById("toggleSidebar").click();
     document.getElementById("taskarea").style.marginRight = "0";
-})
+});
+
+(function _homeIndexMain() {        //This function handles the modal on the hunt page
+    const createTaskModalDOM = document.querySelector("#createTaskModal");
+    const createTaskModal = new bootstrap.Modal(createTaskModalDOM);
+    const createTaskButton = document.querySelectorAll("#btnCreateTask");
+    console.log(createTaskButton);
+    createTaskButton.forEach(item => {
+        item.addEventListener("click", event => {
+            var TaskId = $(item).data("id");
+            var HuntId = $(item).data("huntid");
+            var Task = $(item).data("task");
+
+            console.log(TaskId);
+            $('#TaskIdInput').val(TaskId);  //Passing parameters to the modal
+            $('#HuntIdInput').val(HuntId);
+            $('#TaskInput').text(Task); //Set the task question in the modal
+            createTaskModal.show();
+        })
+    })
+    $("#createTaskModal").submit(function (event) { //On modal submit it passes the form data with huntid, taskid, and answer to an AJAX request in the locations controller
+        var formData = {
+            id: $("#HuntIdInput").val(),
+            taskid: $("#TaskIdInput").val(),
+            answer: $("#AnswerInput").val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: "../../Locations/Validateanswer",
+            data: formData,
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    $('#successMessageArea').html("Success! Task Completed.");
+                    $('#alertAreaSuccess').show();
+                    // After 500ms, fade out over 500ms
+                    setInterval(() => {
+                        $('#alertAreaSuccess').fadeOut(1500);
+                    }, 1500);
+                    setTimeout(() => {
+                        createTaskModal.hide();
+                    }, 1500);
+                }
+                else {
+                    $('#failedMessageArea').html("Incorrect! Try again.");
+                    $('#alertAreaFailed').show();
+                    // After 500ms, fade out over 500ms
+                    setInterval(() => {
+                        $('#alertAreaFailed').fadeOut(1500);
+                    }, 1500); 
+                }
+            },
+        }).done(function (data) {
+            console.log(data);
+        });
+        event.preventDefault();
+    });
+}());

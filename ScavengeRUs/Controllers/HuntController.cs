@@ -241,7 +241,7 @@ namespace ScavengeRUs.Controllers
             var tasks = await _huntRepo.GetLocations(hunt.HuntLocations);
                 foreach (var item in tasks)
                 {
-                    if (currentUser.TasksCompleted != null)
+                    if (currentUser.TasksCompleted.Count() > 0)
                     {
                         var usertask = currentUser.TasksCompleted.FirstOrDefault(a => a.Id == item.Id);
                         if (usertask != null && tasks.Contains(usertask))
