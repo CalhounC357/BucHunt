@@ -13,7 +13,7 @@ using ScavengeRUs.Services;
 
 namespace ScavengeRUs.Controllers
 {
-    [Authorize(Roles = "Admin")] //makes sure that only admin can see this page
+     //makes sure that only admin can see this page
     public class LocationsController : Controller
     {
         private readonly IUserRepository _userRepo;
@@ -36,6 +36,8 @@ namespace ScavengeRUs.Controllers
         /// This method maps to the /Locations URL. It shows the table
         /// </summary>
         /// <returns></returns>
+        /// 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
               return View(await _context.Location.ToListAsync());
@@ -46,6 +48,8 @@ namespace ScavengeRUs.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Location == null)
@@ -68,6 +72,8 @@ namespace ScavengeRUs.Controllers
         /// website
         /// </summary>
         /// <returns></returns>
+        /// 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create([Bind(Prefix = "Id")] int huntid)
         {
             return View();
@@ -80,6 +86,7 @@ namespace ScavengeRUs.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind(Prefix = "Id")] int huntid, Location location)
         {
             if (ModelState.IsValid)
@@ -100,6 +107,8 @@ namespace ScavengeRUs.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Location == null)
@@ -124,6 +133,7 @@ namespace ScavengeRUs.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,HuntId,Place,Lat,Lon,Task,AccessCode,QRCode,Answer")] Location location)
         {
             if (id != location.Id)
@@ -159,6 +169,8 @@ namespace ScavengeRUs.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Location == null)
@@ -183,6 +195,7 @@ namespace ScavengeRUs.Controllers
         /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Location == null)
@@ -216,6 +229,7 @@ namespace ScavengeRUs.Controllers
         /// <param name="answer"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "Admin, Player")]
         public async Task<IActionResult> ValidateAnswer([FromForm]int id, int taskid, string answer)
         {
             var currentUser = await _userRepo.ReadAsync(User.Identity?.Name!);                              //gets current user
