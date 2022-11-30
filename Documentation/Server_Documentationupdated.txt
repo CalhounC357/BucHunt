@@ -1,6 +1,7 @@
 
 Server Documentation
 
+IP : 151.141.90.160
 
 Check status
     `Sudo systemctl status BucHunt.service`
