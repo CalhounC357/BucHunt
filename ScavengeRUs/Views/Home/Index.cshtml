@@ -3,13 +3,22 @@
     ViewData["Title"] = "Buc Hunt";
 }
 
+@section topSection {
+    <article class="banner">
+        <!-- title and tag line with button -->
+        <img src="/images/Campus.jpg" alt="ETSU" style="max-width: 100%; filter: brightness(50%);" />
+        <div class="banner-text">
+            <h1>Welcome to BucHunt</h1>
+        </div>
+    </article>
+}
+
 <div class="text-center">
-    <h1 class="display-4">Welcome to ScavengeRUS</h1>
     <p>Enter your access code to start your scavenger hunt. At each scavenger hunt location, there will be a QR Code that must be scanned to obtain a longitude and latitude point. Hunt progress will be tracked through tasks. Enjoy hunting! </p>
 </div>
+
 <div class="row justify-content-center">
     <div class="col-4">
-    <img class="aerial_campus" src="/Images/campus.jpg" alt="ETSU" />
         <section>
             <form asp-action="LogIn">
                 <hr />

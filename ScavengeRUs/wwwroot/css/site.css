@@ -19,7 +19,7 @@ body {
 }
 #taskimg {
     width: 100px;
-    height 100px;
+    height: 100px;
 }
 #taskheader {
     font-weight: bold;
@@ -121,6 +121,22 @@ body {
 
 }
 
+/* Banner for landing page */
+.banner {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.banner-text {
+    font-size: 25px;
+    font-weight: 700;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-bottom: 2em;
+}
 
 .navbar {
   background-color: #FFC72C;
