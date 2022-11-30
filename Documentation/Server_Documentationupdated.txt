@@ -22,6 +22,7 @@ To update the server app to the main repository:
   Make sure the database (and the publishing folder the database is in) has read and write permissions
 	
 2. SSH into FALL22-4250-940-1.etsu.edu
+  server: http://151.141.90.160/
   username: stuadmin
   pass: tUpme35$
   
